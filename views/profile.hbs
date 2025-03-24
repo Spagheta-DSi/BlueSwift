@@ -712,12 +712,19 @@ body {
     </div>
   </div>
 {{#if feed}}
-      <div class="stream-container "data-max-id="{{#if @first}}{{ feed.post.cid }}{{else}} -1{{/if}}" data-since-id="{{#if @last}}{{ feed.post.cid }}{{else}} -1{{/if}}">
+      <div class="stream-container" data-max-id="{{#if @first}}{{ feed.post.cid }}{{else}}-1{{/if}}" data-since-id="{{#if @last}}{{ feed.post.cid }}{{else}}{{/if}}">
+{{/if}}
     <div class="stream profile-stream">
       <ol class="stream-items" id="stream-items-id">
 {{#each feed}}
 {{#if this.post}}
-<div class="tweet original-tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable js-original-tweet with-social-proof" data-feedback-key="stream_status_{{ this.cid }}" data-tweet-id="{{ this.cid }}" data-item-id="{{ this.cid }}" data-screen-name="{{ this.author.handle }}" data-name="{{ this.author.displayName }}" data-user-id="783214" data-expanded-footer="<div class=&quot;js-tweet-details-fixer tweet-details-fixer&quot;>
+<li class="js-stream-item stream-item stream-item expanding-stream-item" data-item-id="{{ this.post.cid }}" id="stream-item-tweet-{{ this.post.cid }}" data-item-type="tweet">
+    
+
+
+  
+
+<div class="tweet original-tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable js-original-tweet with-social-proof" data-feedback-key="stream_status_{{ this.post.cid }}" data-tweet-id="{{ this.post.cid }}" data-item-id="{{ this.post.cid }}" data-screen-name="{{ this.post.author.handle }}" data-name="{{ this.post.author.displayName }}" data-user-id="783214" data-expanded-footer="<div class=&quot;js-tweet-details-fixer tweet-details-fixer&quot;>
 
 
 
@@ -730,7 +737,7 @@ body {
   </div>
   <div class=&quot;client-and-actions&quot;>
     <span class=&quot;metadata&quot;>
-      <span title=&quot;{{ formatDate this.record.createdAt 'hh:mm A - D MMM YY' }}&quot;>{{ formatDate this.record.createdAt 'hh:mm A - D MMM YY' }}</span>
+      <span title=&quot;{{ formatDate this.post.record.createdAt 'hh:mm A - D MMM YY' }}&quot;>{{ formatDate this.post.record.createdAt 'hh:mm A - D MMM YY' }}</span>
 
       
 
@@ -752,22 +759,22 @@ body {
 
       
       <div class="stream-item-header">
-          <a class="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="/profile/{{ this.author.displayName }}" data-user-id="783214">
-    <img class="avatar js-action-profile-avatar" src="{{ this.author.avatar }}" alt="{{ this.author.displayName }}">
-    <strong class="fullname js-action-profile-name show-popup-with-id">{{ this.author.displayName }}</strong>
-    <span>‏</span><span class="username js-action-profile-name"><s>@</s><b>{{ this.author.handle }}</b></span>
+          <a class="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="/profile/{{ this.post.author.displayName }}" data-user-id="783214">
+    <img class="avatar js-action-profile-avatar" src="{{ this.post.author.avatar }}" alt="{{ this.post.author.displayName }}">
+    <strong class="fullname js-action-profile-name show-popup-with-id">{{ this.post.author.displayName }}</strong>
+    <span>‏</span><span class="username js-action-profile-name"><s>@</s><b>{{ this.post.author.handle }}</b></span>
     
   </a>
 
         <small class="time">
-    <a href="/web/20130502004847/https://twitter.com/twitter/status/329655559752138753" class="tweet-timestamp js-permalink js-nav" title="{{ formatDate this.record.createdAt 'hh:mm A - D MMM YY' }}"><span class="_timestamp js-short-timestamp js-relative-timestamp" data-time="1367430984" data-long-form="true">6h</span></a>
+    <a href="/web/20130502004847/https://twitter.com/twitter/status/329655559752138753" class="tweet-timestamp js-permalink js-nav" title="{{ formatDate this.post.record.createdAt 'hh:mm A - D MMM YY' }}"><span class="_timestamp js-short-timestamp js-relative-timestamp" data-time="1367430984" data-long-form="true">6h</span></a>
 </small>
 
       </div>
 
       
 
-      <p class="js-tweet-text">{{ this.record.text }}</p>
+      <p class="js-tweet-text">{{ this.post.record.text }}</p>
 
       
       <div class="stream-item-footer">
@@ -871,10 +878,10 @@ body {
 
     </div>
   </div>
+</li>
 {{/if}}
 {{/each}}
 </ol>
-{{/if}}
 
         <div class="stream-footer ">
   <div class='timeline-end  '>
