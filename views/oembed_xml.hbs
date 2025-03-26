@@ -1,0 +1,17 @@
+<oembed>
+<html>
+&lt;blockquote class=&quot;twitter-tweet&quot;>
+  &lt;p&gt;{{ data.post.record.text }}&lt;/p&gt;
+  &amp;mdash; {{ data.post.author.displayName }} (@{{ data.post.author.handle }}) &lt;a href=&quot;https://{{ host }}/profile/{{ data.post.author.handle }}&quot;&gt;{{ formatDate data.post.createdAt 'MMMM D, YYYY'}}&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&quot;//platform.twitter.com/widgets.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+</html><type>rich</type>
+<provider_url>http://{{ host }}</provider_url>
+<author_name>{{ data.post.author.displayName }}</author_name>
+<cache_age>31536000000</cache_age>
+<version>1.0</version>
+<width>550</width>
+<author_url>https://{{ host }}/profile/{{ data.post.author.handle }}</author_url>
+<provider_name>{{ appname }}</provider_name>
+<height/>
+<url>https://{{ host }}/profile/{{ data.post.author.handle }}</url>
+</oembed>

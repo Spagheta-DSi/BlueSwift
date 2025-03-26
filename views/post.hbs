@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<!--[if IE 8]><html class="lt-ie10 ie8" lang="en"><![endif]-->
-<!--[if IE 9]><html class="lt-ie10 ie9" lang="en"><![endif]-->
-<!--[if gt IE 9]><!--><html lang="en" ><!--<![endif]-->
+<!--[if IE 8]><html class="lt-ie10 ie8 " lang="en" 
+data-fouc-class-names="swift-loading"><![endif]-->
+<!--[if IE 9]><html class="lt-ie10 ie9 " lang="en" 
+data-fouc-class-names="swift-loading"><![endif]-->
+<!--[if gt IE 9]><!--><html lang="en"  
+data-fouc-class-names="swift-loading"><!--<![endif]-->
   <head>
     
     
@@ -11,10 +14,8 @@
     
     
     <meta charset="utf-8">
-      <title>{{ data.displayName }} ({{ data.handle }}) on {{ appname }}</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=9,chrome=1">
-
-  <meta name="description" content="The latest from {{ data.displayName }} (@{{ data.handle }}). {{ data.description }}">
+      <title>{{ appname }} / {{ data.post.author.handle }}: {{ truncateTitle data.post.record.text }}</title>
+      <meta name="description" content="Instantly connect to what&#39;s most important to you. Follow your friends, experts, favorite celebrities, and breaking news.">
 
 
 
@@ -24,25 +25,27 @@
   <link href="/favicons/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
 
-  <meta name="swift-page-name" id="swift-page-name" content="profile">
+  <meta name="swift-page-name" id="swift-page-name" content="permalink">
 
-    <link rel="canonical" href="/profile/{{ data.handle }}">
+    <link rel="canonical" href="/profile/{{ data.post.author.handle }}/status/{{ getRkey data.post.uri }}">
 
-
-    <link rel="alternate" media="only screen and (max-width: 640px)" href="//mobile.twitter.com/{{ data.handle }}">
-
-<link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="{{ appname }}">
-
-      <link rel="stylesheet" href="/t1/css/t1_core_logged_out.bundle.css" type="text/css">
-
-    <link rel="stylesheet" href="/t1/css/t1_more.bundle.css" type="text/css">
+      <link rel="alternate" type="application/json+oembed" href="/api/1/statuses/oembed.json?id={{ data.post.uri }}" title="{{ appname }} / {{ data.post.author.handle }}: {{ truncateTitle data.post.record.text }}">
+  <link rel="alternate" type="text/xml+oembed" href="/api/1/statuses/oembed.xml?id={{ data.post.uri }}" title="{{ appname }} / {{ data.post.author.handle }}: {{ truncateTitle data.post.record.text }}">
 
 
-        <script id="swift_loading_indicator">
-          document.documentElement.className=document.documentElement.className+" swift-loading";
-        </script>
+
+<link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Twitter">
+
+      <link rel="stylesheet" href="http://127.0.0.1:3000/t1/css/t1_core_logged_out.bundle.css" type="text/css">
+
+    <link rel="stylesheet" href="http://127.0.0.1:3000/t1/css/t1_more.bundle.css" type="text/css">
+
+
     
   
+    <script id="swift_loading_indicator">
+      document.documentElement.className=document.documentElement.className+" "+document.documentElement.getAttribute("data-fouc-class-names");
+    </script>
     <script id="swift_action_queue">
       (function(){function f(a){a=a||window.event;if(!a)return;!a.target&&a.srcElement&&(a.target=a.srcElement);if(!j(a))return;if(!document.addEventListener){var b={};for(var c in a)b[c]=a[c];a=b}a.preventDefault=a.stopPropagation=a.stopImmediatePropagation=function(
 ){};d.push(a);return!1}function g($){i();for(var b=0,c;c=d[b];b++){var e=$(c.target);if(c.type=="click"&&c.target.tagName.toLowerCase()=="a"){var f=$.data(e.get(0),"events"),g=f&&f.click,j=!c.target.hostname.match(a)||!c.target.href.match(/#$/);if(!g&&j){window
@@ -57,8 +60,8 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
     </script>
 
   </head>
-  <body class="t1 logged-out user-style-{{ data.handle }}" dir="ltr">
-    <div id="doc" class="route-profile">
+  <body class="t1 logged-out user-style-twitter" dir="ltr">
+    <div id="doc" class="route-permalink">
         <div class="topbar js-topbar">
   <div id="banners" class="js-banners">
   </div>
@@ -70,13 +73,13 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
         <ul class="nav js-global-actions">
           <li class="home" data-global-action="t1home">
               <a class="nav-logo-link" href="/" data-nav="front">
-                <span class="icon bird-topbar-blue"><span class="visuallyhidden">{{ appname }}</span></span>
+                <span class="icon bird-topbar-blue"><span class="visuallyhidden">Twitter</span></span>
               </a>
           </li>
         </ul>
 
         <div class="pull-right">
-          <form class="form-search js-search-form" action="/search" id="global-nav-search">
+          <form class="form-search js-search-form " action="/search" id="global-nav-search">
   <label class="visuallyhidden" for="search-query">Search query</label>
   <input class="search-input" type="text" id="search-query" placeholder="Search" name="q" autocomplete="off" spellcheck="false">
   <span class="search-icon js-search-action">
@@ -96,27 +99,34 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
   <div class="dropdown-inner js-typeahead-results">
     <ul class="typeahead-items saved-searches-list">
   
-  <li class="saved-search-item search-item"><a class="js-nav" href="" data-search-query="" data-query-source="" data-ds="saved_search" tabindex="-1"><i class="generic-search"></i></a></li>
+  <li class="typeahead-item typeahead-saved-search-item"><a class="js-nav" href="" data-search-query="" data-query-source="" data-ds="saved_search" tabindex="-1"><i class="generic-search"></i></a></li>
 </ul>
-    <ul class="typeahead-items topics-list">
+    <ul class="typeahead-items typeahead-topics">
   
-  <li class="topics-item search-item"><a class="js-nav" href="" data-search-query="" data-query-source="typeahead_click" data-ds="topics" tabindex="-1"><i class="generic-search"></i></a></li>
+  <li class="typeahead-item typeahead-topic-item">
+    <a class="js-nav" href="" data-search-query="" data-query-source="typeahead_click" data-ds="topics" tabindex="-1">
+      <i class="generic-search"></i>
+    </a>
+  </li>
 </ul>
+
+
     <div class="typeahead-accounts js-typeahead-accounts">
   <ul class="typeahead-items">
     
     <li data-user-id="" data-user-screenname="" data-remote="true" data-score="" class="typeahead-item typeahead-account-item js-selectable">
       
       <a class="js-nav" data-query-source="typeahead_click" data-search-query="" data-ds="account">
-        <img width="24" height="24" class="avatar size24">
-        <span class="fullname"></span>
-        <span class="js-verified hidden"><span class="icon verified"><span class="visuallyhidden">Verified account</span></span></span>
-        <span class="username"><s>@</s><b></b></span>
+        <img class="avatar size24">
+            <span class="fullname"></span>
+            <span class="js-verified hidden"><span class="icon verified"><span class="visuallyhidden">Verified account</span></span></span>
+            <span class="username"><s>@</s><b></b></span>
       </a>
     </li>
     <li class="js-selectable typeahead-accounts-shortcut js-shortcut"><a class="js-nav" href="" data-search-query="" data-query-source="typeahead_click" data-shortcut="true" data-ds="account_search"></a></li>
   </ul>
 </div>
+
   </div>
 </div>
 </form>
@@ -174,7 +184,7 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
                 <form action="/sessions/change_locale" class="language" method="POST">
                   <input type="hidden" name="lang">
                   <input type="hidden" name="redirect">
-                  <input type="hidden" name="authenticity_token" value="9fa9c4a49dfb77ff5eba076588724d31359e0a1b">
+                  <input type="hidden" name="authenticity_token" value="9519bffa34d734fc351ba46bcfeaf1239bb9b757">
                 </form>
               </div>
             </li>
@@ -185,7 +195,7 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
               <a class="dropdown-toggle dropdown-signin" id="signin-link" href="#" data-nav="login">
                 <small>Have an account?</small> Sign in<span class="caret"></span>
               </a>
-              <a class="dropdown-signup" id="signup-link" href="/signup?context=login" data-nav="signup">
+              <a class="dropdown-signup" id="signup-link" href="https://twitter.com/signup?context=login" data-nav="signup">
                 <small>New to Twitter?</small><span class="emphasize"> Join Today &raquo;</span>
               </a>
               <ul class="dropdown-menu dropdown-form" id="signin-dropdown">
@@ -194,7 +204,7 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
                   <span class="caret-inner"></span>
                 </li>
                 <li>
-                  <form action="/sessions" class="js-signin signin" method="post">
+                  <form action="https://twitter.com/sessions" class="js-signin signin" method="post">
   <fieldset class="textbox">
   <label class="username js-username">
     <span>Username or email</span>
@@ -215,12 +225,11 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
 </fieldset>
 
 <input type="hidden" name="scribe_log">
-<input type="hidden" name="redirect_after_login" value="/profile/{{ data.handle }}">
-<input type="hidden" value="9fa9c4a49dfb77ff5eba076588724d31359e0a1b" name="authenticity_token"/>
+<input type="hidden" name="redirect_after_login" value="/twitter/status/339797573697163264">
+<input type="hidden" value="9519bffa34d734fc351ba46bcfeaf1239bb9b757" name="authenticity_token"/>
 
   <div class="divider"></div>
   <p class="footer-links">
-    
     <a class="forgot" href="/account/resend_password">Forgot password?</a><br />
     <a class="mobile has-sms" href="/account/complete">Already using Twitter via text message?</a>
   </p>
@@ -244,9 +253,9 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
 </div>
 
         <div id="page-outer">
-          <div id="page-container" class="wrapper wrapper-profile white">
-                
-<style id="user-style-{{ data.handle }}" class="js-user-style">
+          <div id="page-container" class="wrapper wrapper-permalink white">
+              
+<style id="user-style-twitter" class="js-user-style">
 
 
 
@@ -368,7 +377,7 @@ a,
 .stream-item-activity-me .latest-tweet .tweet-row a:focus,
 .stream-item-activity-me .latest-tweet .tweet-row a:hover b,
 .stream-item-activity-me .latest-tweet .tweet-row a:focus b {
-    color: #0084B4;
+    color: #038543;
 }
 
 
@@ -381,7 +390,7 @@ s,
 .pretty-link:focus s,
 .stream-item-activity-me .latest-tweet .tweet-row a:hover s,
 .stream-item-activity-me .latest-tweet .tweet-row a:focus s {
-    color: #66B5D2;
+    color: #67B58E;
 }
 
 
@@ -414,7 +423,7 @@ s,
 
 .discover-item .js-action-card-search:hover .sm-search,
 .discover-item .js-action-card-search:focus .sm-search {
-    background-color: #0084B4;
+    background-color: #038543;
 }
 
 .wrapper.black {
@@ -425,222 +434,102 @@ s,
   background: url(/t1/img/wash-white-30.png);
 }
 
-.wrapper-profile .profile-card.profile-header .profile-header-inner {
-{{#if data.banner }}
-  background-image: url({{ data.banner }});
-{{#else}}
-  background-image: url(/t1/img/grey_header_web.png);
-{{/else}}
-{{/if}}
-}
 
 body {
     background-position: left 40px;
     background-attachment: fixed;
     background-repeat: repeat;
-      background-repeat: no-repeat;
-    background-color: #C0DEED;
+    background-color: #ACDED6;
 }
 </style>
 
-    
-<style id="user-style-Apple-bg-img" class="js-user-style-bg-img">
-  body.user-style-{{ data.handle }} {
-        background-image: url(/images/themes/theme1/bg.png);
+  
+<style id="user-style-twitter-bg-img" class="js-user-style-bg-img">
+  body.user-style-twitter {
+        background-image: url(https://si0.twimg.com/profile_background_images/657090062/l1uqey5sy82r9ijhke1i.png);
   }
 </style>
 
-    <div class="dashboard">
-  <div class="component">
-  <div class="module profile-nav">
-    <ul class="js-nav-links">
-      <li class="active">
-        <a class="list-link js-nav" href="/profile/{{ data.handle }}" data-nav="profile">Tweets<i class="chev-right"></i></a>
-      </li>
-      <li class="">
-        <a class="list-link js-nav" href="/profile/{{ data.handle }}/following" data-nav="following">Following<i class="chev-right"></i></a>
-      </li>
-      <li class="">
-        <a class="list-link js-nav" href="/profile/{{ data.handle }}/followers" data-nav="followers">Followers<i class="chev-right"></i></a>
-      </li>
-      <li class="">
-        <a class="list-link js-nav" href="/profile/{{ data.handle }}/favorites" data-nav="favorites">
-            Favorites<i class="chev-right"></i>
-        </a>
-      </li>
-      <li class="">
-        <a class="list-link js-nav" href="/profile/{{ data.handle }}/lists" data-nav="all_lists">Lists<i class="chev-right"></i></a>
-      </li>
-    </ul>
-  </div>
-</div>
+<div class="permalink  has-replies">
 
 
-    <div class="module signup-call-out profile-signup-call-out">
-  <div class="flex-module">
-    <div class="flex-module-header">
-      <h2>Follow {{ data.displayName }}</h2>
-    </div>
-    <form action="/signup" class="clearfix signup" method="post">
-  <div class="holding name">
-    <input type="text" autocomplete="off" name="user[name]" maxlength="20">
-    <span class="holder">Full name</span>
-  </div>
-  <div class="holding email">
-    <input class="email-input" type="text" autocomplete="off" name="user[email]">
-    <span class="holder">Email</span>
-  </div>
-  <div class="holding password">
-    <input type="password" name="user[user_password]">
-    <span class="holder">Password</span>
-  </div>
-    <input name="follow" type="hidden" value="{{ data.handle }}">
-  <input type="hidden" value="" name="context">
-  <input type="hidden" value="9fa9c4a49dfb77ff5eba076588724d31359e0a1b" name="authenticity_token"/>
-  <input name="follows" type="hidden" value="">
-  <input type="submit" class="btn signup-btn js-submit js-signup-btn" value="Sign up">
-</form>
-
-  </div>
-</div>
+      
+  <div class="permalink-inner permalink-tweet-container">
 
 
-    <div class="module enhanced-media-thumbnails hidden">
-  <div class="flex-module media-thumbnails large recent_photos">
-    <div class="media-box">
-      <div class="media-row-content photo-list">
-        <span class="thumbnail-placeholder first"></span>
-        <span class="thumbnail-placeholder"></span>
-        <span class="thumbnail-placeholder"></span>
-        <span class="thumbnail-placeholder"></span>
-        <span class="thumbnail-placeholder"></span>
-        <span class="thumbnail-placeholder"></span>
-      </div>
-    </div>
-  </div>
-  <a class="list-link last js-nav grid-link" href="/profile/{{ data.handle }}/media/grid">View all photos and videos<i class="chev-right"></i></a>
-</div>
+    <div class="tweet permalink-tweet js-actionable-user js-actionable-tweet 
+ opened-tweet
+
+ has-cards
+
+ with-social-proof
 
 
-  
 
 
-    <div class="module trends hidden">
-  <div class="flex-module trends-inner">
-    <div class="flex-module trends-container">
-  <div class="flex-module-header">
+
+
+  preexpanded" data-associated-tweet-id="339797573697163264" 
+data-feedback-key="stream_status_339797573697163264"
+data-tweet-id="339797573697163264"
+
+
+data-item-id="339797573697163264"
+
+
+ data-screen-name="twitter" data-name="Twitter" data-user-id="783214"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>
+
+      
+      <i class="dogear"></i>
+
+      
+      <div class="content clearfix">
+        <div class="permalink-header">
+            
+
     
-    <h3>
-      <span class="js-trend-location">
-          Worldwide trends
-      </span>
-    </h3>
-    <small>&middot; <a href="#" data-modal="change-trends" class="change-trends js-trend-toggle">Change</a></small>
-  </div>
-  <div class="flex-module-inner">
-    <ul class="trend-items js-trends">
-    </ul>
-  </div>
-</div>
-  </div>
-</div>
-
-
-  <div class="module site-footer ">
-  <div class="flex-module">
-    <div class="flex-module-inner js-items-container">
-      <ul class="clearfix">
-        <li class="copyright">&copy; {{ year }} {{ appname }}</li>
-        <li><a href="/about">About</a></li>
-        <li><a href="//support.twitter.com">Help</a></li>
-        <li><a href="/tos">Terms</a></li>
-        <li><a href="/privacy">Privacy</a></li>
-        <li><a href="http://blog.twitter.com">Blog</a></li>
-        <li><a href="http://status.twitter.com">Status</a></li>
-        <li><a href="/download">Apps</a></li>
-        <li><a href="/about/resources">Resources</a></li>
-        <li><a href="/jobs">Jobs</a></li>
-        <li><a href="https://business.twitter.com/start-advertising">Advertisers</a></li>
-        <li><a href="https://business.twitter.com">Businesses</a></li>
-        <li><a href="//media.twitter.com">Media</a></li>
-        <li><a href="//dev.twitter.com">Developers</a></li>
-        <li><a href="/i/directory/profiles">Directory</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-</div>
-
-    <div class="module profile-card component profile-header" data-component-term="profile_follow_card" >
-  <div class="profile-header-inner flex-module clearfix " data-background-image={{#if data.banner }}"url('{{ data.banner }}')"{{#else}}"url('/t1/img/grey_header_web.png')"{{/else}}{{/if}} >
-    <div class="profile-header-inner-overlay"></div>
-
-
-      <a href="{{ data.avatar }}" class="profile-picture media-thumbnail" data-resolved-url-large="{{ data.avatar }}" data-url="{{ data.avatar }}" target="_blank">
-
-        <img src="{{ data.avatar }}" alt="{{ data.displayName }}" class="avatar size73">
-      </a>
-
-
-    <div class="profile-card-inner" data-screen-name="{{ data.handle }}" data-user-id="{{ data.did }}">
-      <h1 class="fullname editable-group">
-          <span class="profile-field">{{ data.displayName }}</span>
+    <div class="follow-bar">
+      <div class="user-actions btn-group not-following  " data-user-id="783214"
+    data-screen-name="twitter" data-name="Twitter" data-protected="false">
 
 
 
-      </h1>
+        
 
-      <h2 class="username">
-            <span class="screen-name"><s>@</s>{{ data.handle }}</span>
-      </h2>
-      <div class="bio-container editable-group">
-        <p class="bio profile-field">{{ data.description }}</p>
-      </div>
-      <p class="location-and-url">
-        <span class="location-container editable-group">
-          <span class="location profile-field">
-            
-          </span>
-        </span>
-        <span class="divider hidden">&middot;</span>
-        <span class="url editable-group">
-          <span class="profile-field">
-            
-<a target="_blank" rel="me nofollow" href="">
-  
-</a>
-
-          </span>
-        </span>
-      </p>
-    </div>
-  </div>
-  <div class="flex-module profile-banner-footer clearfix">
-    <div class="default-footer">
-        <ul class="stats js-mini-profile-stats" data-user-id="{{ data.did }}">
-  <li><a class="js-nav" href="/profile/{{ data.handle }}" data-element-term="tweet_stats" data-nav='profile'>  
-  <strong>{{ formatNumber data.postsCount }}</strong> Tweets
-</a></li>
-  <li><a class="js-nav" href="/profile/{{ data.handle }}/following" data-element-term="following_stats" data-nav='following'>  
-  <strong>{{ formatNumber data.followsCount }}</strong> Following
-</a></li>
-  <li><a class="js-nav" href="/profile/{{ data.handle }}/followers" data-element-term="follower_stats" data-nav='followers'>  
-  <strong>{{ formatNumber data.followersCount }}</strong> Followers
-</a></li>
-</ul>
-      <div class="user-actions btn-group not-following  " data-user-id="{{ data.did }}"
-    data-screen-name="{{ data.handle }}" data-name="{{ data.displayName }}" data-protected="false">
 
 
       
 
-
-    
 <button class="js-follow-btn follow-button btn" type="button">
-  <span class="button-text follow-text"><i class="follow"></i> Follow</span>
-  <span class="button-text following-text">Following</span>
-  <span class="button-text unfollow-text">Unfollow</span>
+  <span class="button-text follow-text">
+     <i class="follow"></i> Follow 
+    
+  </span>
+  <span class="button-text following-text">
+     Following
+    
+  </span>
+  <span class="button-text unfollow-text">
+     Unfollow
+    
+  </span>
   <span class="button-text blocked-text">Blocked</span>
   <span class="button-text unblock-text">Unblock</span>
   <span class="button-text pending-text">Pending</span>
@@ -648,151 +537,157 @@ body {
 </button>
 
 
+
+
 </div>
 
-  </div>
-  </div>
-</div>
+    </div>
 
-      <div id="trends_dialog" class="trends-dialog modal-container">
-  <div class="close-modal-background-target"></div>
-  <div class="modal draggable">
-    <div class="modal-content">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
-      <div class="modal-header">
-          <h3 class="modal-title">
-            Trends
-            
-          </h3>
-      </div>
 
-      <div class="modal-body">
+            <a  class="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="/profile/{{ data.post.author.handle }}" data-user-id="783214">
+    <img class="avatar js-action-profile-avatar" src="{{ data.post.author.avatar }}" alt="{{ data.post.author.displayName }}">
+    <strong class="fullname js-action-profile-name show-popup-with-id">{{ data.post.author.displayName }}<span class="visuallyhidden">Verified account</span></span></strong>
+    <span>&rlm;</span><span class="username js-action-profile-name"><s>@</s><b>{{ data.post.author.handle }}</b></span>
+    
+  </a>
 
-          <div class="trends-personalized content-placeholder">
-  <h2 class="title">Trends tailored just for you.</h2>
-  <p>Trends offer a unique way to get closer to what you care about. They are tailored for you based on your location and who you follow.</p>
-  <p class="placeholder-actions">
-    <button type="button" class="btn customize-by-location">Change</button>
-    <button type="button" class="btn primary-btn done">Keep tailored Trends</button>
-  </p>
-</div>
-
-        <div class="trends-dialog-error">
-          <p></p>
-        </div>
-
-        <div class="trends-wrapper" id="trends_dialog_content">
           
-          <div class="loading">
-            <span class="spinner-bigger"></span>
-          </div>
+          <small class="time">
+    <a href="/twitter/status/339797573697163264" class="tweet-timestamp js-permalink js-nav" title="10:37 AM - 29 May 13" ><span class="_timestamp js-short-timestamp js-relative-timestamp" data-time="1369849029" data-long-form="true">15h</span></a>
+</small>
+
         </div>
       </div>
-        <div class="modal-footer trends-by-location">
-          <button type="button" class="btn select-personalized">Get tailored Trends</button>
-<button type="button" class="btn primary-btn done">Done</button>
-        </div>
-    </div>
-  </div>
-</div>
-    <div class="component" id="suggested-users"></div>
 
-  
-  <div class="content-main" id="timeline">
-  <div class="content-header">
-    <div class="header-inner">
-{{#if feed}}
-      <h2 class="js-timeline-title">Tweets
-          <small class="view-toggler"><a class="toggle-item-1  js-nav" href="/profile/{{ data.handle }}/with_replies">All</a> / <a class="toggle-item-2 active js-nav" href="/profile/{{ data.handle }}">No replies</a></small>
-      </h2>
-  {{else}}
-      <h2 class="js-timeline-title">Tweets
-      </h2>
-{{/if}}
-    </div>
-  </div>
-{{#if feed}}
-      <div class="stream-container" data-max-id="{{#if @first}}{{ feed.post.uri }}{{else}}-1{{/if}}" data-since-id="{{#if @last}}{{ feed.post.uri }}{{else}}{{/if}}">
-{{/if}}
-    <div class="stream profile-stream">
-      <ol class="stream-items" id="stream-items-id">
-{{#each feed}}
-{{#if this.post}}
-<li class="js-stream-item stream-item stream-item expanding-stream-item" data-item-id="{{ this.post.uri }}" id="stream-item-tweet-{{ this.post.uri }}" data-item-type="tweet">
-    
-
-
-  
-
-<div class="tweet original-tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable js-original-tweet with-social-proof" data-feedback-key="stream_status_{{ this.post.uri }}" data-tweet-id="{{ this.post.uri }}" data-item-id="{{ this.post.uri }}" data-screen-name="{{ this.post.author.handle }}" data-name="{{ this.post.author.displayName }}" data-user-id="{{ this.post.author.did }}" data-expanded-footer="<div class=&quot;js-tweet-details-fixer tweet-details-fixer&quot;>
-
-
-
-  <div class=&quot;js-tweet-media-container &quot;></div>
-    <div class=&quot;entities-media-container &quot; style=&quot;min-height:0px&quot;>
-    </div>
-
-  <div class=&quot;js-machine-translated-tweet-container&quot;></div>
-  <div class=&quot;js-tweet-stats-container tweet-stats-container already-open&quot;>
-  {{#if this.post.record.embed.images}}
-<div class=&quot;js-tweet-details-fixer tweet-details-fixer&quot;>
-
-
-
-        <div class=&quot;cards-media-container &quot;><div data-card-url=&quot;{{ this.post.embed.images.0.fullsize }}&quot; data-card-type=&quot;photo&quot; class=&quot;cards-base cards-multimedia&quot; data-element-context=&quot;platform_photo_card&quot;>
-  <div class=&quot;media&quot;>
-    
-    <a class=&quot;twitter-timeline-link media-thumbnail&quot; href=&quot;{{ this.post.embed.images.0.fullsize }}&quot; data-url=&quot;{{ this.post.embed.images.0.fullsize }}&quot; data-resolved-url-large=&quot;{{ this.post.embed.images.0.fullsize }}&quot;>
-      <img src=&quot;{{ this.post.embed.images.0.thumb }}&quot; alt=&quot;Embedded image permalink&quot; >
-    </a>
-  </div>
-  <div class=&quot;cards-content&quot;>
-    <div class=&quot;byline&quot;>
       
-    </div>
-    
-  </div>
-  
+      <p class="js-tweet-text tweet-text">{{ data.post.record.text }}</p>
+
+
+
+      
+      <div class="stream-item-footer">
+        
+        
+
+<div class="context">
 </div>
-{{/if}}
-{{#if this.post.record.embed.external}}<div class=&quot;js-tweet-details-fixer tweet-details-fixer&quot;>
 
 
-      <div class=&quot;card2 &quot; data-card2-name=&quot;summary&quot;>
-        <div class=&quot;card2-summary util-cf card2-holder&quot; data-card2-url=&quot;{{ this.post.record.embed.external.uri }}&quot;>
-  <div class=&quot;card2-attribution util-text-small&quot;>
-    <a class=&quot;card2-profile-link util-link-complex util-text-normal js-action-profile js-user-profile-link&quot; data-user-id=&quot;{{ this.post.author.did }}&quot; href=&quot;/profile/{{ this.post.author.handle }}&quot;>
-      <img class=&quot;util-align-middle util-rounded&quot; src=&quot;{{ this.post.author.avatar }}&quot; width=&quot;18&quot; height=&quot;18&quot; alt=&quot;&quot;><b class=&quot;util-link-complex-target util-align-middle&quot;>{{ this.post.author.displayName }}</b>
+        
+        
+
+<ul class="tweet-actions js-actions">
+  <li class="action-reply-container">
+    <a role="button" class="with-icn js-action-reply" data-modal="tweet-reply" href="#">
+      <span class="icon sm-reply"></span>
+      <b>Reply</b>
+    </a>
+  </li>
+  <li class="action-rt-container js-toggle-state js-toggle-rt">
+    <a role="button" class="with-icn retweet" data-modal="tweet-retweet" href="#">
+      <span class="icon sm-rt"></span>
+      <b>Retweet</b>
+    </a>
+    <a role="button" class="with-icn undo-retweet" data-modal="tweet-retweet" href="#" title="Undo retweet">
+      <span class="icon sm-rt"></span>
+      <b>Retweeted</b>
+    </a>
+  </li>
+  <li class="action-del-container">
+    <a role="button" class="with-icn js-action-del" href="#">
+      <span class="icon sm-trash"></span>
+      <b>Delete</b>
+    </a>
+  </li>
+  <li class="action-fav-container js-toggle-state js-toggle-fav">
+      <a role="button" class="with-icn favorite" href="#">
+        <span class="icon sm-fav"></span>
+        <b>Favorite</b>
+      </a>
+      <a role="button" class="with-icn unfavorite" href="#" title="Undo favorite">
+        <span class="icon sm-fav"></span>
+        <b>Favorited</b>
+      </a>
+  </li>
+
+        <li class="more-tweet-actions">
+  <div class="action-more-container">
+    <div class="dropdown">
+      <button type="button" class="btn-link with-icn dropdown-toggle">
+        <i class="sm-more"></i>
+        <b>More</b>
+      </button>
+      <ul class="dropdown-menu">
+        <li class="dropdown-caret">
+          <span class="caret-outer"></span>
+          <span class="caret-inner"></span>
+        </li>
+          <li class="embed-link">
+            <a class="js-embed-tweet" href="#" data-nav="embed_tweet">Embed Tweet</a>
+          </li>
+      </ul>
+    </div>
+  </div>
+</li>
+
+
+
+
+  
+</ul>
+
+      </div>
+
+      <div class="permalink-footer">
+        <div class="expanded-content js-tweet-details-dropdown">
+</div>
+
+        <div class="js-tweet-details-fixer tweet-details-fixer">
+
+
+{{#if data.post.embed.external }}
+      <div class="card2 " data-card2-name="summary">
+        <div class="card2-summary util-cf card2-holder" data-card2-url="{{ data.post.embed.external.uri }}">
+  <div class="card2-attribution util-text-small">
+    <a class="card2-profile-link util-link-complex util-text-normal js-action-profile js-user-profile-link"
+     data-user-id="{{ data.post.author.did }}"
+     href="/profile/{{ data.post.author.handle }}">
+      <img class="util-align-middle util-rounded"
+       src="{{ data.post.author.avatar }}"
+       width="18" height="18" alt=""><b class="util-link-complex-target util-align-middle">{{ data.post.author.displayName }}</b>
     </a>
 </div>
 
 
 
-
-  <a href=&quot;{{ this.post.embed.external.uri }}&quot; target=&quot;_blank&quot; class=&quot;js-card2-external-link&quot;>
-  <img class=&quot;util-pull-end card2-thumbnail&quot; src=&quot;{{ this.post.embed.external.thumb }}&quot; alt=&quot;&quot;>
+  <a href="{{ data.post.embed.external.uri }}" target="_blank" class="js-card2-external-link">
+  <img class="util-pull-end card2-thumbnail"
+   src="{{ data.post.embed.external.thumb }}"
+   alt="">
 </a>
 
 
-  <div class=&quot;util-nbfc&quot;>
-    <h3 class=&quot;card2-title&quot;>
-  <a class=&quot;js-card2-external-link util-text-normal util-text-ltr&quot; href=&quot;{{ this.post.embed.external.uri }}&quot; target=&quot;_blank&quot;>
-    {{ this.post.embed.external.title }}
+  <div class="util-nbfc">
+    <h3 class="card2-title">
+  <a class="js-card2-external-link util-text-normal util-text-ltr" href="{{ data.post.embed.external.uri }}" target="_blank">
+    {{ data.post.embed.external.title }}
   </a>
 </h3>
 
 
-<p class=&quot;card2-description&quot;>
-  <a class=&quot;js-card2-external-link util-link-block util-text-break twitter-timeline-link&quot; target=&quot;_blank&quot; href=&quot;{{ this.post.embed.external.uri }}&quot;>
-    <span class=&quot;util-text-normal util-text-ltr&quot;>
-      {{ this.post.embed.external.description }}
+<p class="card2-description">
+  <a class="js-card2-external-link util-link-block util-text-break twitter-timeline-link"
+    target="_blank"
+    href="{{ data.post.embed.external.uri }}">
+    <span class="util-text-normal util-text-ltr">
+      {{ data.post.embed.external.description }}
     </span>
   </a>
 </p>
 
 
-    <div class=&quot;card2-footer&quot;>
-  <a href=&quot;{{ this.post.embed.external.uri }}&quot; target=&quot;_blank&quot; class=&quot;js-card2-external-link&quot;>
+    <div class="card2-footer">
+  <a href="{{ data.post.embed.external.uri }}" target="_blank" class="js-card2-external-link">
     View on web
   </a>
 </div>
@@ -804,57 +699,12 @@ body {
 </div>
 {{/if}}
 
-  </div>
-  <div class=&quot;client-and-actions&quot;>
-    <span class=&quot;metadata&quot;>
-      <span title=&quot;{{ formatDate this.post.record.createdAt 'hh:mm A - D MMM YY' }}&quot;>{{ formatDate this.post.record.createdAt 'hh:mm A - D MMM YY' }}</span>
-
-      
-
-
-           &amp;middot; <a class=&quot;permalink-link js-permalink js-nav&quot; href=&quot;/twitter/status/329655559752138753&quot; >Details</a>
-
-      
-
-
-    </span>
-  </div>
-</div>">
-
+{{#if data.post.embed.images }}
+<div class="cards-media-container js-media-container"><div data-card-url="{{ data.post.embed.images.0.fullsize }}" data-card-type="photo" class="cards-base cards-multimedia" data-element-context="platform_photo_card">
+  <div class="media">
     
-    <i class="dogear"></i>
-
-    
-    <div class="content">
-
-      
-      <div class="stream-item-header">
-          <a class="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="/profile/{{ this.post.author.displayName }}" data-user-id="{{ this.post.author.did }}">
-    <img class="avatar js-action-profile-avatar" src="{{ this.post.author.avatar }}" alt="{{ this.post.author.displayName }}">
-    <strong class="fullname js-action-profile-name show-popup-with-id">{{ this.post.author.displayName }}</strong>
-    <span>‏</span><span class="username js-action-profile-name"><s>@</s><b>{{ this.post.author.handle }}</b></span>
-    
-  </a>
-
-        <small class="time">
-    <a href="/profile/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}" class="tweet-timestamp js-permalink js-nav" title="{{ formatDate this.post.record.createdAt 'hh:mm A - D MMM YY' }}"><span class="_timestamp js-short-timestamp js-relative-timestamp" data-time="{{ formatDate this.post.record.createdAt 'x' }}" data-long-form="true">6h</span></a>
-</small>
-
-      </div>
-
-      
-
-      <p class="js-tweet-text">{{ this.post.record.text }}</p>
-
-      
-      <div class="stream-item-footer">
-        
-{{#if this.post.embed.images}}
-<div class="cards-media-container js-media-container"><div data-card-url="{{ this.post.embed.images.0.fullsize }}" data-card-type="photo" class="cards-base cards-multimedia" data-element-context="platform_photo_card">
-  <div class="media media-forward">
-    
-    <a class="twitter-timeline-link media-thumbnail is-preview" href="{{ this.post.embed.images.0.fullsize }}" data-url="{{ this.post.embed.images.0.fullsize }}" data-resolved-url-large="{{ this.post.embed.images.0.fullsize }}" loaded="true">
-      <img src="{{ this.post.embed.images.0.thumb }}" alt="Embedded image permalink" width="100%" style="margin-top: -69px">
+    <a class="twitter-timeline-link media-thumbnail" href="{{ data.post.embed.images.0.fullsize }}" data-url="{{ data.post.embed.images.0.fullsize }}" data-resolved-url-large="{{ data.post.embed.images.0d.fullsize }}">
+      <img src="{{ data.post.embed.images.0.fullsize }}" alt="Embedded image permalink" width="435" height="290">
     </a>
   </div>
   <div class="cards-content">
@@ -870,70 +720,174 @@ body {
 
 </div>
 {{/if}}
-{{#if this.reason}}
-<div class="context">
-          <span class="with-icn">
-            <i class="badge-retweeted"></i>
-            <span class="js-retweet-text">Retweeted by <a class="pretty-link js-user-profile-link" href="/profile/{{ this.reason.by.handle }}" data-user-id="{{ this.post.author.did }}"><b>{{ this.reason.by.displayName }}</b></a></span>
-          </span>
-</div>
 
+  <div class="js-tweet-media-container "></div>
+    <div class="entities-media-container " style="min-height:0px">
+    </div>
 
-            {{#if this.post.record.embed.images}}
-            <a class="details with-icn js-details" href="/profile/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}">
-              <span class="details-icon js-icon-container">
-                  <i class="sm-image"></i>
+  <div class="js-machine-translated-tweet-container"></div>
+  <div class="js-tweet-stats-container tweet-stats-container ">
+      
 
-            </span>
-            <b>
-              <span class="expand-stream-item js-view-details">
-                View photo
-              </span>
-              <span class="collapse-stream-item js-hide-details">
-                Hide photo
-              </span>
-            </b>
-          </a>
-          {{else}}
-          <a class="details with-icn js-details" href="/profile/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}">
-            <span class="details-icon js-icon-container">
+<ul class="stats">
+    <li class="js-stat-count js-stat-retweets stat-count">
+      <a tabindex="0"
+          class="request-retweeted-popup"
+          data-activity-popup-title="  
+  Retweeted {{ data.post.repostCount }} times
+"
+      >
+          
+          <strong>{{ formatNumber data.post.repostCount }}</strong> Retweets
+      </a>
+    </li>
 
-            </span>
-            <b>
+    <li class="js-stat-count js-stat-favorites stat-count">
+      <a tabindex="0"
+          class="request-favorited-popup"
+          data-activity-popup-title="    
+    Favorited {{ data.post.likeCount }} times
+"
+      >
             
-                  <span class="expand-action-wrapper">
-                    Expand
-                  </span>
-              </span>
-              <span class="collapse-stream-item js-hide-details">
-                Collapse
-              </span>
-              {{/if}}
-            </b>
-          </a>
-{{else}}
+            <strong>{{ formatNumber data.post.likeCount }}</strong> Favorites
+      </a>
+    </li>
+
+  <li class="avatar-row js-face-pile-container">
+      <a class="js-profile-popup-actionable js-user-tipsy" href="/chaochaos1028" data-user-id="1434504848" original-title="超哥" title="超哥">
+  <img class="avatar size24 js-user-profile-link js-tooltip" src="https://si0.twimg.com/profile_images/3726838552/49ec8ebb5da07f2e6c589d52b38126e0_normal.jpeg" alt="超哥" title="超哥">
+</a>
+
+  </li>
+</ul>
+
+  </div>
+  <div class="client-and-actions">
+    <span class="metadata">
+      <span title="{{ formatDate data.post.record.createdAt 'hh:mm A - D MMM YY' }}">{{ formatDate data.post.record.createdAt 'hh:mm A - D MMM YY' }}</span>
+
+      
+
+
+
+      <span class="flag-container flag-cards">
+  <button type="button" class="flaggable btn-link">
+    Flag media
+  </button>
+  <span class="flagged hidden">
+    Flagged
+    <span>
+      <a target="_blank" href="//support.twitter.com/articles/20069937">
+        (learn more)
+      </a>
+    </span>
+  </span>
+</span>
+
+
+    </span>
+  </div>
+</div>
+        
+<div class="proxy-tweet-container">
+  
+
+
+  
+
+
+  <div class="tweet original-tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable js-original-tweet  
+ opened-tweet
+
+ has-cards
+
+ with-social-proof
+
+
+
+
+
+
+" 
+data-feedback-key="stream_status_{{ getRkey data.post.uri }}"
+data-tweet-id="{{ getRkey data.post.uri }}"
+
+
+data-item-id="{{ getRkey data.post.uri }}"
+
+
+ data-screen-name="{{ getRkey data.post.author.handle }}" data-name="{{ getRkey data.post.author.displayName }}" data-user-id="{{ data.post.author.did }}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>
+
+    
+    <span class="icon dogear"></span>
+
+    
+    <div class="content">
+
+      
+      <div class="stream-item-header">
+          <a  class="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="/profile/{{ data.post.author.handle }}" data-user-id="783214">
+    <img class="avatar js-action-profile-avatar" src="{{ data.post.author.avatar }}" alt="{{ data.post.author.displayName }}">
+    <strong class="fullname js-action-profile-name show-popup-with-id">{{ data.post.author.displayName }}<span class="visuallyhidden">Verified account</span></span></strong>
+    <span>&rlm;</span><span class="username js-action-profile-name"><s>@</s><b>{{ data.post.author.handle }}</b></span>
+    
+  </a>
+
+        <small class="time">
+    <a href="/profile/{{ data.post.author.handle }}/status/{{ getRkey data.post.uri }}" class="tweet-timestamp js-permalink js-nav" title="{{ formatDate data.post.record.createdAt 'hh:mm A - D MMM YY' }}" ><span class="_timestamp js-short-timestamp js-relative-timestamp" data-time="1369849029" data-long-form="true">15h</span></a>
+</small>
+
+      </div>
+
+
+      
+
+      <p class="js-tweet-text tweet-text">{{ data.post.record.text }}</p>
+
+
+      
+      <div class="stream-item-footer">
+        
+        
+
 <div class="context">
 </div>
 
 
           
-          <a class="details with-icn js-details" href="/profile/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}">
+          <a class="details with-icn js-details" href="/profile/{{ data.author.handle }}/status/{{ getRkey data.post.uri }}">
             <span class="details-icon js-icon-container">
-              
+                <i class="sm-embed"></i>
+
             </span>
             <b>
               <span class="expand-stream-item js-view-details">
-                
-                  <span class="expand-action-wrapper">
-                    Expand
-                  </span>
+                View summary
               </span>
               <span class="collapse-stream-item js-hide-details">
-                Collapse
+                Hide summary
               </span>
             </b>
           </a>
-{{/if}}
+
         
         
 
@@ -1001,67 +955,215 @@ body {
 
       
       <div class="expanded-content js-tweet-details-dropdown">
-    
-    
-    
 </div>
 
 
     </div>
   </div>
-</li>
-{{/if}}
+
+
+
+</div>
+      </div>
+    </div>
+
+  </div>
+
+
+    
+
+
+<div class="replies-to  permalink-inner permalink-replies" data-component-context="replies">
+    <div class="tweets-wrapper">
+      <div id="descendants">
+          <div class="stream-container "
+    
+    data-cursor="339876580329390080"
+    
+    >
+    <div class="stream permalink-stream">
+      <ol class="stream-items" id="stream-items-id">
+
+
+
+
+
+
+{{#if data}}
+{{#each replies}}
+    <li>
+      
+      
+      <div class="simple-tweet tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable  
+
+
+
+
+
+
+
+
+
+
+
+ descendant" 
+data-feedback-key="stream_status_{{ getRkey this.post.uri }}"
+data-tweet-id="{{ getRkey this.post.uri }}"
+
+
+data-item-id="{{ getRkey this.post.uri }}"
+
+
+ data-screen-name="{{ this.post.author.handle }}" data-name="{{ this.post.author.displayName }}" data-user-id="{{ this.post.author.did }}"
+
+
+
+
+
+ data-has-parent-tweet="true" 
+
+data-expanded-footer="&lt;div class=&quot;js-tweet-details-fixer tweet-details-fixer&quot;&gt;&#10;&#10;&#10;&#10;&#10;  &lt;div class=&quot;js-tweet-media-container &quot;&gt;&lt;/div&gt;&#10;    &lt;div class=&quot;entities-media-container &quot; style=&quot;min-height:0px&quot;&gt;&#10;    &lt;/div&gt;&#10;&#10;  &lt;div class=&quot;js-machine-translated-tweet-container&quot;&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;js-tweet-stats-container tweet-stats-container &quot;&gt;&#10;  &lt;/div&gt;&#10;  &lt;div class=&quot;client-and-actions&quot;&gt;&#10;    &lt;span class=&quot;metadata&quot;&gt;&#10;      &lt;span title=&quot;10:37 AM - 29 May 13&quot;&gt;10:37 AM - 29 May 13&lt;/span&gt;&#10;&#10;      &#10;&#10;&#10;           &amp;middot; &lt;a class=&quot;permalink-link js-permalink js-nav&quot; href=&quot;/_lennypalm/status/339797759794221057&quot; &gt;Details&lt;/a&gt;&#10;&#10;      &#10;&#10;&#10;    &lt;/span&gt;&#10;  &lt;/div&gt;&#10;&lt;/div&gt;&#10;"
+
+
+ data-mentions=""
+
+
+
+
+ data-component-context="replies"
+>
+        
+        
+        <i class="dogear"></i>
+        
+        
+        <div class="content">
+          
+          
+          <div class="stream-item-header">
+            <a  class="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="/profile/{{ this.post.author.handle }}" data-user-id="{{ this.post.author.handle }}">
+              <img class="avatar js-action-profile-avatar" src="{{ this.post.author.avatar }}" alt="{{ this.post.author.displayName }}">
+              <strong class="fullname js-action-profile-name show-popup-with-id">{{ this.post.author.displayName }}</strong>
+              <span>&rlm;</span><span class="username js-action-profile-name"><s>@</s><b>{{ this.post.author.handle }}</b></span>
+              
+              </a>
+            
+            <small class="time">
+              <a href="/profile/{{ this.post.author.handle }}/status/{{ getRkey replies.uri }}" class="tweet-timestamp js-permalink js-nav" title="{{ formatDate this.post.record.createdAt 'hh:mm A - D MMM YY' }}" ><span class="_timestamp js-short-timestamp js-relative-timestamp" data-time="1369849073" data-long-form="true">15h</span></a>
+              </small>
+            
+            </div>
+          
+          
+          
+          
+          <p class="js-tweet-text tweet-text">{{ this.post.record.text }}</p>
+          
+          
+          
+          <div class="stream-item-footer">
+            
+            
+            
+            
+            <a class="details with-icn js-details" href="/status/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}">
+              <span class="details-icon js-icon-container">
+                
+                </span>
+              <b>
+                <span class="simple-details-link">Details</span>
+                <span class="expand-stream-item js-view-details">
+                  
+                  <span class="expand-action-wrapper">
+                    Expand
+                    </span>
+                  </span>
+                <span class="collapse-stream-item js-hide-details">
+                  Collapse
+                  </span>
+                </b>
+              </a>
+            
+            
+            
+            
+            <ul class="tweet-actions js-actions">
+              <li class="action-reply-container">
+                <a role="button" class="with-icn js-action-reply" data-modal="tweet-reply" href="#">
+                  <span class="icon sm-reply"></span>
+                  <b>Reply</b>
+                  </a>
+                </li>
+              <li class="action-rt-container js-toggle-state js-toggle-rt">
+                <a role="button" class="with-icn retweet" data-modal="tweet-retweet" href="#">
+                  <span class="icon sm-rt"></span>
+                  <b>Retweet</b>
+                  </a>
+                <a role="button" class="with-icn undo-retweet" data-modal="tweet-retweet" href="#" title="Undo retweet">
+                  <span class="icon sm-rt"></span>
+                  <b>Retweeted</b>
+                  </a>
+                </li>
+              <li class="action-del-container">
+                <a role="button" class="with-icn js-action-del" href="#">
+                  <span class="icon sm-trash"></span>
+                  <b>Delete</b>
+                  </a>
+                </li>
+              <li class="action-fav-container js-toggle-state js-toggle-fav">
+                <a role="button" class="with-icn favorite" href="#">
+                  <span class="icon sm-fav"></span>
+                  <b>Favorite</b>
+                  </a>
+                <a role="button" class="with-icn unfavorite" href="#" title="Undo favorite">
+                  <span class="icon sm-fav"></span>
+                  <b>Favorited</b>
+                  </a>
+                </li>
+              
+              <li class="more-tweet-actions">
+                <div class="action-more-container">
+                  <div class="dropdown">
+                    <button type="button" class="btn-link with-icn dropdown-toggle">
+                      <i class="sm-more"></i>
+                      <b>More</b>
+                      </button>
+                    <ul class="dropdown-menu">
+                      <li class="dropdown-caret">
+                        <span class="caret-outer"></span>
+                        <span class="caret-inner"></span>
+                        </li>
+                      <li class="embed-link">
+                        <a class="js-embed-tweet" href="#" data-nav="embed_tweet">Embed Tweet</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+              
+              
+              
+              
+              
+              </ul>
+            
+            </div>
+          
+          
+          <div class="expanded-content js-tweet-details-dropdown">
+            
+            
+            
+            </div>
+          
+          
+          </div>
+        </div>
+    </li>
 {{/each}}
-</ol>
-
-{{#if feed}}
-        <div class="stream-footer ">
-  <div class='timeline-end has-items has-more-items'>
-    <div class="stream-end">
-  <div class="stream-end-inner ">
-      <i class="bird-etched"></i>
-
-    <p class="empty-text">
-            @{{ data.handle }} hasn&#39;t tweeted yet.
-    </p>
-        <p><button type='button' class='btn-link back-to-top hidden'>Back to top &uarr;</button></p>
-
-  </div>
-</div>
-{{else}}
-        <div class="stream-footer ">
-  <div class='timeline-end  '>
-    <div class="stream-end">
-  <div class="stream-end-inner ">
-      <i class="bird-etched"></i>
-
-    <p class="empty-text">
-            @{{ data.handle }} hasn&#39;t tweeted yet.
-    </p>
-        <p><button type='button' class='btn-link back-to-top hidden'>Back to top &uarr;</button></p>
-
-  </div>
-</div>
 {{/if}}
-
-    <div class="stream-loading">
-  <div class="stream-end-inner">
-    <span class="spinner" title="Loading..."></span>
-  </div>
-</div>
-
-  </div>
-</div>
-<div class="stream-fail-container">
-    <div class="js-stream-whale-end stream-whale-end stream-placeholder centered-placeholder">
-  <div class="stream-end-inner">
-    <h2 class="title">Loading seems to be taking a while.</h2>
-    <p>
-      Twitter may be over capacity or experiencing a momentary hiccup. <a href="#" class="try-again-after-whale">Try again</a> or visit <a target="_blank" href="http://status.twitter.com">Twitter Status</a> for more information.
-    </p>
-  </div>
-</div>
-</div>
+    
+</ol>
       <ol class="hidden-replies-container"></ol>
       <div class="stream-autoplay-marker">
         <i class="arrow"></i>
@@ -1069,11 +1171,67 @@ body {
       </div>
     </div>
   </div>
-    <div id="sensitive_flag_dialog" class="modal-container">
+
+      </div>
+    </div>
+</div>
+
+
+
+
+</div>
+
+<div class="permalink-footer">
+        <div class="module signup-call-out">
+  <div class="flex-module">
+    <div class="flex-module-header">
+      <h2>Don’t miss any updates from {{ data.post.author.displayName }} <small>Join Twitter today and follow what interests you!</small></h2>
+    </div>
+    <form action="/signup" class="clearfix signup" method="post">
+  <div class="holding name">
+    <input type="text" autocomplete="off" name="user[name]" maxlength="20">
+    <span class="holder">Full name</span>
+  </div>
+  <div class="holding email">
+    <input class="email-input" type="text" autocomplete="off" name="user[email]">
+    <span class="holder">Email</span>
+  </div>
+  <div class="holding password">
+    <input type="password" name="user[user_password]">
+    <span class="holder">Password</span>
+  </div>
+    <input name="follow" type="hidden" value="{{ data.post.author.handle }}">
+  <input type="hidden" value="permalink" name="context">
+  <input type="hidden" value="9519bffa34d734fc351ba46bcfeaf1239bb9b757" name="authenticity_token"/>
+  <input name="follows" type="hidden" value="">
+  <input type="submit" class="btn signup-btn js-submit js-signup-btn" value="Sign up">
+</form>
+
+      <div class="sms-follow">
+    <span class="icon"></span>
+      Text <strong>follow twitter</strong> to <strong>40404</strong> in <a href="http://support.twitter.com/articles/14226-how-to-find-your-twitter-short-code-or-long-code" class="sms-codes-link">the United States</a>
+  </div>
+
+  </div>
+</div>
+  <div class="module site-footer slim-site-footer">
+  <div class="flex-module">
+    <div class="flex-module-inner js-items-container">
+      <ul class="clearfix">
+        <li class="copyright">&copy; {{ year }} {{ appname }}</li>
+        <li><a href="/about">About</a></li>
+        <li><a href="//support.twitter.com">Help</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div>
+<div id="sensitive_flag_dialog" class="modal-container">
   <div class="close-modal-background-target"></div>
   <div class="modal modal-small draggable">
     <div class="modal-content">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
+      <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
       <div class="modal-header">
         <h3 class="modal-title">Flag this media</h3>
       </div>
@@ -1103,32 +1261,6 @@ body {
 
 
 
-</div>
-
-  <div id="import-loading-dialog" class="modal-container">
-  <div class="close-modal-background-target"></div>
-  <div class="modal modal-large draggable">
-    <div class="modal-content">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
-
-      <div class="modal-header">
-        <h3 class="modal-title">We’re loading your contacts…</h3>
-      </div>
-
-      <div class="modal-body">
-        <span class="spinner" title="Loading..."></span>
-
-        <p>
-          (This can take a while if you’ve got a large address book.)
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
           </div>
         </div>
       
@@ -1141,7 +1273,7 @@ body {
 </div>
 </div>
 
-    <div class="grid">
+    <div class="grid hidden">
   <div class="grid-overlay"></div>
   <div class="grid-container">
     <div class="swift-media-grid">
@@ -1167,8 +1299,8 @@ body {
   <div class="gallery-close-target"></div>
   <div class="swift-media-gallery">
     <div class="modal-header">
-      <a class="dismiss close-action" href="#"><i class="close-medium"></i></a>
-      <a class="gridview grid-action" href="#"><i class="grid-icon"></i></a>
+      <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
+      <a class="gridview grid-action" href="#"><span class="icon grid-icon"><span class="visuallyhidden"></span></span></a>
       <h2 class="modal-title"></h2>
     </div>
     <div class="gallery-media"></div>
@@ -1190,7 +1322,7 @@ body {
 <div id="goto-user-dialog" class="modal-container">
   <div class="modal modal-small draggable">
     <div class="modal-content">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
+      <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
 
       <div class="modal-header">
         <h3 class="modal-title">Go to a person's profile</h3>
@@ -1208,27 +1340,34 @@ body {
   <div class="dropdown-inner js-typeahead-results">
     <ul class="typeahead-items saved-searches-list">
   
-  <li class="saved-search-item search-item"><a class="js-nav" href="" data-search-query="" data-query-source="" data-ds="saved_search" tabindex="-1"><i class="generic-search"></i></a></li>
+  <li class="typeahead-item typeahead-saved-search-item"><a class="js-nav" href="" data-search-query="" data-query-source="" data-ds="saved_search" tabindex="-1"><i class="generic-search"></i></a></li>
 </ul>
-    <ul class="typeahead-items topics-list">
+    <ul class="typeahead-items typeahead-topics">
   
-  <li class="topics-item search-item"><a class="js-nav" href="" data-search-query="" data-query-source="typeahead_click" data-ds="topics" tabindex="-1"><i class="generic-search"></i></a></li>
+  <li class="typeahead-item typeahead-topic-item">
+    <a class="js-nav" href="" data-search-query="" data-query-source="typeahead_click" data-ds="topics" tabindex="-1">
+      <i class="generic-search"></i>
+    </a>
+  </li>
 </ul>
+
+
     <div class="typeahead-accounts js-typeahead-accounts">
   <ul class="typeahead-items">
     
     <li data-user-id="" data-user-screenname="" data-remote="true" data-score="" class="typeahead-item typeahead-account-item js-selectable">
       
       <a class="js-nav" data-query-source="typeahead_click" data-search-query="" data-ds="account">
-        <img width="24" height="24" class="avatar size24">
-        <span class="fullname"></span>
-        <span class="js-verified hidden"><span class="icon verified"><span class="visuallyhidden">Verified account</span></span></span>
-        <span class="username"><s>@</s><b></b></span>
+        <img class="avatar size24">
+            <span class="fullname"></span>
+            <span class="js-verified hidden"><span class="icon verified"><span class="visuallyhidden">Verified account</span></span></span>
+            <span class="username"><s>@</s><b></b></span>
       </a>
     </li>
     <li class="js-selectable typeahead-accounts-shortcut js-shortcut"><a class="js-nav" href="" data-search-query="" data-query-source="typeahead_click" data-shortcut="true" data-ds="account_search"></a></li>
   </ul>
 </div>
+
   </div>
 </div>
           </form>
@@ -1244,7 +1383,7 @@ body {
   <div class="close-modal-background-target"></div>
   <div class="modal draggable">
     <div class="modal-content">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
+      <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
 
       <div class="modal-header">
         <h3 class="modal-title">Retweet this to your followers?</h3>
@@ -1264,7 +1403,7 @@ body {
   <div class="close-modal-background-target"></div>
   <div class="modal draggable">
     <div class="modal-content">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
+      <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
 
       <div class="modal-header">
         <h3 class="modal-title">Are you sure you want to delete this Tweet?</h3>
@@ -1286,7 +1425,7 @@ body {
   <div class="close-modal-background-target"></div>
   <div class="modal modal-large draggable">
     <div class="modal-content">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
+      <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
 
       
       <div class="modal-header">
@@ -1363,7 +1502,7 @@ body {
   <div class="close-modal-background-target"></div>
   <div class="modal draggable">
     <div class="modal-content">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
+      <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
 
       <div class="modal-header">
         <h3 class="modal-title">Are you sure you want to block this user?</h3>
@@ -1429,7 +1568,7 @@ body {
   <div class="close-modal-background-target"></div>
   <div class="modal modal-small draggable">
     <div class="modal-content clearfix">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
+      <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
       <div class="modal-header">
         <h3 class="modal-title">Profile summary</h3>
       </div>
@@ -1448,7 +1587,7 @@ body {
   <div class="close-modal-background-target"></div>
   <div class="modal modal-small draggable">
     <div class="modal-content">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
+      <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
       <div class="modal-header">
         <h3 class="modal-title">Your lists</h3>
       </div>
@@ -1463,7 +1602,7 @@ body {
   <div class="close-modal-background-target"></div>
   <div class="modal modal-medium draggable">
     <div class="modal-content">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
+      <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
       <div class="modal-header">
         <h3 class="modal-title">Create a new list</h3>
       </div>
@@ -1516,7 +1655,7 @@ body {
   <div class="close-modal-background-target"></div>
   <div class="modal draggable">
     <div class="modal-content clearfix">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
+      <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
 
       <div class="modal-header">
         <h3 class="modal-title"></h3>
@@ -1538,7 +1677,7 @@ body {
   <div class="close-modal-background-target"></div>
   <div class="modal draggable">
     <div class="modal-content">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
+      <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
       <div class="modal-header">
         <h3 class="modal-title"></h3>
       </div>
@@ -1556,16 +1695,16 @@ body {
 
 
 
-  <div id="embed-tweet-dialog-v2" class="modal-container">
+  <div id="embed-tweet-dialog" class="modal-container">
   <div class="close-modal-background-target"></div>
   <div class="modal modal-medium draggable">
     <div class="modal-content">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
+      <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
       <div class="modal-header">
         <h3 class="modal-title">Embed this Tweet</h3>
       </div>
       <div class="modal-body">
-          <div class="embed-code-container">
+        <div class="embed-code-container">
   <p>Add this Tweet to your website by copying the code below. <a href="//dev.twitter.com/docs/embedded-tweets">Learn more</a></p>
   <form>
 
@@ -1608,13 +1747,13 @@ body {
       <div class="close-modal-background-target"></div>
       <div class="modal modal-medium draggable">
         <div class="modal-content">
-          <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
+          <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
           <div class="modal-header">
-            <h3 class="modal-title modal-long-title signup-only">Sign up for Twitter &amp; follow @<span>{{ data.handle }}</span></h3>
+            <h3 class="modal-title modal-long-title signup-only">Sign up for Twitter &amp; follow @<span>twitter</span></h3>
             <h3 class="modal-title not-signup-only">Sign in to Twitter</h3>
           </div>
           <div class="modal-body signup-only">
-            <form action="/signup" class="clearfix signup" method="post">
+            <form action="https://twitter.com/signup" class="clearfix signup" method="post">
   <div class="holding name">
     <input type="text" autocomplete="off" name="user[name]" maxlength="20">
     <span class="holder">Full name</span>
@@ -1627,16 +1766,16 @@ body {
     <input type="password" name="user[user_password]">
     <span class="holder">Password</span>
   </div>
-    <input name="follow" type="hidden" value="{{ data.handle }}">
-  <input type="hidden" value="" name="context">
-  <input type="hidden" value="9fa9c4a49dfb77ff5eba076588724d31359e0a1b" name="authenticity_token"/>
+    <input name="follow" type="hidden" value="twitter">
+  <input type="hidden" value="permalink" name="context">
+  <input type="hidden" value="9519bffa34d734fc351ba46bcfeaf1239bb9b757" name="authenticity_token"/>
   <input name="follows" type="hidden" value="">
   <input type="submit" class="btn signup-btn js-submit js-signup-btn" value="Sign up">
 </form>
 
           </div>
           <div class="modal-body not-signup-only">
-            <form action="/sessions" class="signin" method="post">
+            <form action="https://twitter.com/sessions" class="signin" method="post">
   <fieldset>
 
   <div class="clearfix holding">
@@ -1651,15 +1790,15 @@ body {
     <p class="help-text-inline">Forgot your <a href="/account/resend_password" tabindex="-1">password</a>?</p>
   </div>
 
-  <input type="hidden" value="9fa9c4a49dfb77ff5eba076588724d31359e0a1b" name="authenticity_token"/>
+  <input type="hidden" value="9519bffa34d734fc351ba46bcfeaf1239bb9b757" name="authenticity_token"/>
 
 </fieldset>
 
   <div class="clearfix">
 
   <input type="hidden" name="scribe_log">
-  <input type="hidden" name="redirect_after_login" value="/profile/{{ data.handle }}">
-  <input type="hidden" value="9fa9c4a49dfb77ff5eba076588724d31359e0a1b" name="authenticity_token"/>
+  <input type="hidden" name="redirect_after_login" value="/twitter/status/339797573697163264">
+  <input type="hidden" value="9519bffa34d734fc351ba46bcfeaf1239bb9b757" name="authenticity_token"/>
   <button type="submit" class="submit btn primary-btn" tabindex=4>Sign in</button>
 
   <fieldset class="subchck">
@@ -1680,8 +1819,10 @@ body {
 
             <div class="signup">
               <h2>Not on Twitter? Sign up, tune into the things you care about, and get updates as they happen.</h2>
-              <form action="/signup" class="signup" method="get">
-    <input name="follow" type="hidden" value="{{ data.handle }}">
+              <form action="https://twitter.com/signup" class="signup" method="get">
+    <input name="follow" type="hidden" value="twitter">
+    <input type="hidden" name="context" value="permalink">
+    <input type="hidden" value="9519bffa34d734fc351ba46bcfeaf1239bb9b757" name="authenticity_token"/>
   <button class="btn promotional signup-btn" type="submit">Sign up &raquo;</button>
 </form>
 
@@ -1696,7 +1837,7 @@ body {
   <div class="close-modal-background-target"></div>
   <div class="modal modal-medium draggable">
     <div class="modal-content">
-      <button type="button" class="modal-btn modal-close js-close"><i class="close-medium"><span class="visuallyhidden">Close</span></i></button>
+      <button type="button" class="modal-btn modal-close js-close"><span class="icon close-medium"><span class="visuallyhidden">Close</span></span></button>
       <div class="modal-header">
         <h3 class="modal-title">Two-way (sending and receiving) short codes:</h3>
       </div>
@@ -1780,8 +1921,8 @@ body {
 </div>
   </body>
 </html>
-  <input type="hidden" id="init-data" class="json-data" value="{&quot;macawSwift&quot;:true,&quot;assetsBasePath&quot;:&quot;\/&quot;,&quot;environment&quot;:&quot;production&quot;,&quot;sandboxes&quot;:{&quot;jsonp&quot;:&quot;\/jsonp_sandbox.html&quot;,&quot;detailsPane&quot;:&quot;\/details_pane_content_sandbox.html&quot;},&quot;formAuthenticityToken&quot;:&quot;9fa9c4a49dfb77ff5eba076588724d31359e0a1b&quot;,&quot;loggedIn&quot;:false,&quot;screenName&quot;:null,&quot;userId&quot;:null,&quot;scribeBufferSize&quot;:3,&quot;pageName&quot;:&quot;profile&quot;,&quot;sectionName&quot;:&quot;profile&quot;,&quot;scribeMetrics&quot;:0,&quot;scribeParameters&quot;:{},&quot;internalReferer&quot;:&quot;\/aharoni&quot;,&quot;experiments&quot;:{},&quot;geoEnabled&quot;:false,&quot;typeaheadData&quot;:{&quot;accounts&quot;:{&quot;localQueriesEnabled&quot;:false,&quot;remoteQueriesEnabled&quot;:false,&quot;enabled&quot;:false},&quot;savedSearches&quot;:{&quot;enabled&quot;:false,&quot;items&quot;:[]},&quot;dmAccounts&quot;:{&quot;enabled&quot;:false,&quot;localQueriesEnabled&quot;:false,&quot;onlyDMable&quot;:true,&quot;remoteQueriesEnabled&quot;:false},&quot;topics&quot;:{&quot;enabled&quot;:false,&quot;localQueriesEnabled&quot;:false,&quot;prefetchLimit&quot;:500,&quot;remoteQueriesEnabled&quot;:false},&quot;showDebugInfo&quot;:false,&quot;useThrottle&quot;:true,&quot;remoteDebounceInterval&quot;:300,&quot;remoteThrottleInterval&quot;:300},&quot;pushStatePageLimit&quot;:500000,&quot;routes&quot;:{&quot;profile&quot;:&quot;\/&quot;},&quot;pushState&quot;:true,&quot;viewContainer&quot;:&quot;#page-container&quot;,&quot;asyncSocialProof&quot;:true,&quot;dragAndDropPhotoUpload&quot;:false,&quot;href&quot;:&quot;\/profile\/{{ data.handle }}&quot;,&quot;searchPathWithQuery&quot;:&quot;\/search?q=query&amp;src=typd&quot;,&quot;enable_instagram&quot;:false,&quot;timelineCardsGallery&quot;:true,&quot;mediaGrid&quot;:true,&quot;deciders&quot;:{&quot;compose_9_reply_logic&quot;:true},&quot;permalinkCardsGallery&quot;:false,&quot;researchExperiments&quot;:{},&quot;latest_incoming_direct_message_id&quot;:null,&quot;smsDeviceVerified&quot;:null,&quot;deviceEnabled&quot;:false,&quot;hasPushDevice&quot;:null,&quot;profile_user&quot;:{&quot;id&quot;:380749300,&quot;id_str&quot;:&quot;380749300&quot;,&quot;name&quot;:&quot;{{ data.displayName }}&quot;,&quot;screen_name&quot;:&quot;{{ data.handle }}&quot;,&quot;location&quot;:&quot;&quot;,&quot;url&quot;:null,&quot;description&quot;:&quot;&quot;,&quot;protected&quot;:false,&quot;followers_count&quot;:{{ data.followersCount }},&quot;friends_count&quot;:0,&quot;listed_count&quot;:53,&quot;created_at&quot;:&quot;{{ formatDate data.createdAt 'ddd MMM DD HH:mm:ss ZZ YYYY' }}&quot;,&quot;favourites_count&quot;:0,&quot;utc_offset&quot;:-36000,&quot;time_zone&quot;:&quot;Hawaii&quot;,&quot;geo_enabled&quot;:false,&quot;verified&quot;:false,&quot;statuses_count&quot;:0,&quot;lang&quot;:&quot;en&quot;,&quot;contributors_enabled&quot;:false,&quot;is_translator&quot;:false,&quot;profile_background_color&quot;:&quot;C0DEED&quot;,&quot;profile_background_image_url&quot;:&quot;http:\/\/a0.twimg.com\/images\/themes\/theme1\/bg.png&quot;,&quot;profile_background_image_url_https&quot;:&quot;https:\/\/si0.twimg.com\/images\/themes\/theme1\/bg.png&quot;,&quot;profile_background_tile&quot;:false,&quot;profile_image_url&quot;:&quot;http:\/\/a0.twimg.com\/sticky\/default_profile_images\/default_profile_1_normal.png&quot;,&quot;profile_image_url_https&quot;:&quot;https:\/\/si0.twimg.com\/sticky\/default_profile_images\/default_profile_1_normal.png&quot;,&quot;profile_link_color&quot;:&quot;0084B4&quot;,&quot;profile_sidebar_border_color&quot;:&quot;C0DEED&quot;,&quot;profile_sidebar_fill_color&quot;:&quot;DDEEF6&quot;,&quot;profile_text_color&quot;:&quot;333333&quot;,&quot;profile_use_background_image&quot;:true,&quot;default_profile&quot;:true,&quot;default_profile_image&quot;:true,&quot;following&quot;:null,&quot;follow_request_sent&quot;:null,&quot;notifications&quot;:null},&quot;profile_id&quot;:380749300,&quot;cardsGallery&quot;:true,&quot;injectComposedTweets&quot;:false,&quot;help_pips_decider&quot;:false,&quot;inlineProfileEditing&quot;:false,&quot;forceHTML5FileUploader&quot;:false,&quot;showTrends&quot;:true,&quot;trendsCacheKey&quot;:null,&quot;decider_personalized_trends&quot;:true,&quot;showWhoToFollowModule&quot;:true,&quot;wtfRefreshOnNewTweets&quot;:false,&quot;wtfOptions&quot;:{&quot;pc&quot;:true,&quot;connections&quot;:true,&quot;limit&quot;:3,&quot;display_location&quot;:&quot;profile-sidebar&quot;,&quot;dismissable&quot;:true,&quot;similar_to_user_id&quot;:380749300},&quot;timeline_url&quot;:&quot;\/i\/profiles\/show\/{{ data.handle }}\/timeline\/with_replies&quot;,&quot;mediaGridOpen&quot;:false,&quot;pollingOptions&quot;:{&quot;focusedInterval&quot;:60000,&quot;blurredInterval&quot;:300000,&quot;backoffFactor&quot;:2,&quot;backoffEmptyResponseLimit&quot;:2,&quot;pauseAfterBackoff&quot;:true,&quot;resumeItemCount&quot;:40},&quot;initialState&quot;:{&quot;title&quot;:&quot;{{ data.displayName }} ({{ data.handle }}) on {{ appname }}&quot;,&quot;section&quot;:null,&quot;module&quot;:&quot;app\/pages\/profile\/tweets&quot;,&quot;cache_ttl&quot;:300,&quot;body_class_names&quot;:&quot;t1 logged-out user-style-Apple&quot;,&quot;doc_class_names&quot;:&quot;route-profile&quot;,&quot;page_container_class_names&quot;:&quot;wrapper wrapper-profile white&quot;,&quot;ttft_navigation&quot;:false}}">
-    <input type="hidden" class="swift-boot-module" value="app/pages/profile/tweets">
+  <input type="hidden" id="init-data" class="json-data" value="{&quot;baseFoucClass&quot;:&quot;swift-loading&quot;,&quot;htmlFoucClassNames&quot;:&quot;swift-loading&quot;,&quot;htmlClassNames&quot;:&quot;&quot;,&quot;macawSwift&quot;:true,&quot;assetsBasePath&quot;:&quot;\/&quot;,&quot;environment&quot;:&quot;production&quot;,&quot;sandboxes&quot;:{&quot;jsonp&quot;:&quot;\/jsonp_sandbox.html&quot;,&quot;detailsPane&quot;:&quot;\/details_pane_content_sandbox.html&quot;},&quot;formAuthenticityToken&quot;:&quot;9519bffa34d734fc351ba46bcfeaf1239bb9b757&quot;,&quot;loggedIn&quot;:false,&quot;screenName&quot;:null,&quot;userId&quot;:null,&quot;scribeBufferSize&quot;:3,&quot;pageName&quot;:&quot;permalink&quot;,&quot;sectionName&quot;:&quot;permalink&quot;,&quot;scribeParameters&quot;:{},&quot;internalReferer&quot;:&quot;\/intent\/user?screen_name=twitter&quot;,&quot;experiments&quot;:{},&quot;geoEnabled&quot;:false,&quot;typeaheadData&quot;:{&quot;accounts&quot;:{&quot;localQueriesEnabled&quot;:false,&quot;remoteQueriesEnabled&quot;:false,&quot;enabled&quot;:false},&quot;savedSearches&quot;:{&quot;enabled&quot;:false,&quot;items&quot;:[]},&quot;dmAccounts&quot;:{&quot;enabled&quot;:false,&quot;localQueriesEnabled&quot;:false,&quot;onlyDMable&quot;:true,&quot;remoteQueriesEnabled&quot;:false},&quot;topics&quot;:{&quot;enabled&quot;:false,&quot;localQueriesEnabled&quot;:false,&quot;prefetchLimit&quot;:500,&quot;remoteQueriesEnabled&quot;:false},&quot;recentSearches&quot;:{&quot;enabled&quot;:false},&quot;hashtags&quot;:{&quot;enabled&quot;:false,&quot;localQueriesEnabled&quot;:false,&quot;prefetchLimit&quot;:500,&quot;remoteQueriesEnabled&quot;:false},&quot;showDebugInfo&quot;:false,&quot;useThrottle&quot;:true,&quot;remoteDebounceInterval&quot;:300,&quot;remoteThrottleInterval&quot;:300,&quot;tweetContextEnabled&quot;:false},&quot;pushStatePageLimit&quot;:500000,&quot;routes&quot;:{&quot;profile&quot;:&quot;\/&quot;},&quot;pushState&quot;:true,&quot;viewContainer&quot;:&quot;#page-container&quot;,&quot;asyncSocialProof&quot;:true,&quot;dragAndDropPhotoUpload&quot;:true,&quot;href&quot;:&quot;\/twitter\/status\/339797573697163264&quot;,&quot;searchPathWithQuery&quot;:&quot;\/search?q=query&amp;src=typd&quot;,&quot;mark_old_dms_read&quot;:false,&quot;timelineCardsGallery&quot;:true,&quot;mediaGrid&quot;:true,&quot;deciders&quot;:{&quot;remove_expando_after_collapse&quot;:true,&quot;oembed_use_macaw_syndication&quot;:false,&quot;preserve_scroll_position&quot;:false},&quot;permalinkCardsGallery&quot;:false,&quot;researchExperiments&quot;:{},&quot;latest_incoming_direct_message_id&quot;:null,&quot;smsDeviceVerified&quot;:null,&quot;deviceEnabled&quot;:false,&quot;hasPushDevice&quot;:null,&quot;tweetId&quot;:&quot;339797573697163264&quot;,&quot;endpoint&quot;:&quot;\/i\/twitter\/conversation\/339797573697163264&quot;,&quot;permalinkCardsGallery&quot;:true,&quot;initialState&quot;:{&quot;title&quot;:&quot;Twitter \/ twitter: New! iPhone and Android features ...&quot;,&quot;section&quot;:null,&quot;module&quot;:&quot;app\/pages\/permalink&quot;,&quot;cache_ttl&quot;:300,&quot;body_class_names&quot;:&quot;t1 logged-out user-style-twitter&quot;,&quot;doc_class_names&quot;:&quot;route-permalink&quot;,&quot;page_container_class_names&quot;:&quot;wrapper wrapper-permalink white&quot;,&quot;ttft_navigation&quot;:false}}">
+    <input type="hidden" class="swift-boot-module" value="app/pages/permalink">
   <input type="hidden" id="swift-module-path" value="/c/swift/en">
 
   

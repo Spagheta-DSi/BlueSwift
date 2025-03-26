@@ -5,11 +5,16 @@ import dotenv from 'dotenv';
 import { routes } from './routes';
 import { engine } from 'express-handlebars';
 import moment from 'moment';
+import cookieParser from 'cookie-parser';
+import crypto from 'crypto';
+import expressSession from 'express-session';
+import bodyParser from 'body-parser';
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
+const appname = process.env.APP_NAME || "Not Twitter";
 
 app.set('view engine', 'hbs');
 app.engine('hbs', engine({
@@ -21,12 +26,39 @@ app.engine('hbs', engine({
 		},
 		formatDate: function(date: string | Date, format: string): string {
 			return moment(date).format(format);
+		},
+		emojiBytecode: function(text: string): string {
+			if (!text) return "";
+			return text.replace(/\p{Emoji}/gu, (match) => match.split('').map(char =>
+			`\\u${char.codePointAt(0)?.toString(16).padStart(4, "0")}`).join());
+		},
+		getRkey: function(uri: string): string | null {
+			const regex = /at:\/\/did:plc:[^/]+\/app\.bsky\.feed\.post\/([^/?#]+)/;
+			const match = uri.match(regex);
+			return match ? match[1] : null;
+		},
+		truncateTitle: function(str: string): string {
+			if (str.length <= 30) {
+				return str;
+			}
+			return str.slice(0, 30) + ' ...';
 		}
-	}
+		}
 }));
+
 app.set('views', path.join(__dirname, '../views'));
 
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({
+	extended: true,
+}));
+app.use(cookieParser());
+app.use(expressSession({
+	secret: process.env.SECRET_KEY || crypto.randomBytes(32).toString('hex'),
+	resave: false,
+	saveUninitialized: false,
+	cookie: { secure: false },
+}));
 
 app.use('/', routes);
 
