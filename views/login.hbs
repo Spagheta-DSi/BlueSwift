@@ -173,7 +173,7 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
           <div id="page-container" class="wrapper wrapper-login white">
             <div class="page-canvas">
 
-  <div class="signin-wrapper" {{#if redir}}data-login-message="true"{{else}}data-login-message="false"{{/if}}>
+  <div class="signin-wrapper" {{#if redir}}data-login-message="true"{{else if error}}data-login-message="true"{{else}}data-login-message="false"{{/if}}>
     <h1>Sign in to {{ appname }}</h1>
     <form action="/sessions" class="clearfix signin js-signin" method="post">
       <fieldset>
@@ -232,7 +232,7 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
     <div class="alert-messages hidden" id="message-drawer">
         <div class="message ">
       <div class="message-inside">
-        <span class="message-text"></span>
+        <span class="message-text">{{#if error}}{{#if @first}} {{ error }} {{/if}}{{/if}}</span>
             <a class="dismiss" href="#">&times;</a>
       </div>
     </div></div>

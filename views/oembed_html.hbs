@@ -1,0 +1,3 @@
+<blockquote class="twitter-tweet">
+  <p>{{ data.post.record.text }}</p>
+  &mdash; {{ data.post.author.displayName }} (@{{ data.post.author.handle }}) <a href="https://{{ host }}/profile/{{ data.post.author.handle }}/statuses/{{ getRkey data.post.uri }}">{{ formatDate data.post.createdAt 'MMMM D, YYYY'}}</a></blockquote>

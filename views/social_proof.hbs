@@ -1,0 +1,5 @@
+<ul class="stats">
+  <li class="js-stat-count js-stat-retweets stat-count"> <a href="#"          class="request-retweeted-popup"          data-activity-popup-title="    Retweeted {{ formatNumber thread.post.repostCount }} times"      > <strong>{{ formatNumber thread.post.repostCount }}</strong> Retweets </a> </li>
+  <li class="js-stat-count js-stat-favorites stat-count"> <a href="#"          class="request-favorited-popup"          data-activity-popup-title="    Favorited {{ formatNumber thread.post.likeCount }} times"      > <strong>{{ formatNumber thread.post.likeCount }}</strong> Favorites </a> </li>
+  <li class="avatar-row js-face-pile-container">{{#each likes}}{{#if actor}} <a class="js-profile-popup-actionable js-user-tipsy" href="/profile/{{ actor.handle }}" data-user-id="{{ actor.did }}" original-title="{{ actor.displayName }}" title="{{ actor.displayName }}"> <img class="avatar size24 js-user-profile-link js-tooltip" src="{{ actor.avatar }}" alt="{{ actor.displayName }}" title="{{ actor.displayName }}"> </a>       {{/if}}{{/each}}</li>
+</ul>

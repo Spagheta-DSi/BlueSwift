@@ -9,6 +9,10 @@ import cookieParser from 'cookie-parser';
 import crypto from 'crypto';
 import expressSession from 'express-session';
 import bodyParser from 'body-parser';
+import morgan, { StreamOptions } from 'morgan';
+import flash from 'express-flash';
+import jsesc from 'jsesc';
+import handlebars = require("handlebars");
 
 dotenv.config();
 
@@ -22,15 +26,18 @@ app.engine('hbs', engine({
 	defaultLayout: false,
 	helpers: {
 		formatNumber: function(number: number) {
-			return number.toLocaleString();
+			return number.toLocaleString("en-US");
 		},
 		formatDate: function(date: string | Date, format: string): string {
 			return moment(date).format(format);
 		},
 		emojiBytecode: function(text: string): string {
 			if (!text) return "";
-			return text.replace(/\p{Emoji}/gu, (match) => match.split('').map(char =>
-			`\\u${char.codePointAt(0)?.toString(16).padStart(4, "0")}`).join());
+			return jsesc(text);
+		},
+		jsonEscape: function(text: string): string {
+			if (!text) return "";
+			return JSON.stringify(text);
 		},
 		getRkey: function(uri: string): string | null {
 			const regex = /at:\/\/did:plc:[^/]+\/app\.bsky\.feed\.post\/([^/?#]+)/;
@@ -49,6 +56,7 @@ app.engine('hbs', engine({
 app.set('views', path.join(__dirname, '../views'));
 
 app.use(express.static('public'));
+app.use(morgan('tiny'));
 app.use(bodyParser.urlencoded({
 	extended: true,
 }));
@@ -59,6 +67,7 @@ app.use(expressSession({
 	saveUninitialized: false,
 	cookie: { secure: false },
 }));
+app.use(flash());
 
 app.use('/', routes);
 

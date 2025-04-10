@@ -1,10 +1,10 @@
 // src/api.ts
-import { BskyAgent } from '@atproto/api';
+import { AtpAgent } from '@atproto/api';
 
-export const agent = new BskyAgent({
+export const agent = new AtpAgent({
 	service: "https://api.bsky.app",
 });
 
-export const authAgent = new BskyAgent({
+export const authAgent = new AtpAgent({
 	service: "https://bsky.social",
 });

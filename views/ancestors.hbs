@@ -1,0 +1,41 @@
+{{#if thread.replies}}{{#each thread.replies}}{{#if post}}
+<div class="in-reply-to js-tweet-ancestors" data-component-context="conversation">
+  <ol class="ancestor-items">
+    <li class="">
+      <div class="simple-tweet tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable   ancestor" data-feedback-key="stream_status_{{ this.post.record.cid }}"data-tweet-id="{{ this.post.record.cid }}"data-item-id="{{ this.post.record.cid }}" data-screen-name="{{ this.post.author.handle }}" data-name="{{ this.post.author.displayName }}" data-user-id="{{ this.post.author.did }}"data-expanded-footer="&lt;div class=&quot;js-tweet-details-fixer tweet-details-fixer&quot;&gt;&#10;&#10;&#10;&#10;    &lt;div class=&quot;entities-media-container js-media-container&quot; style=&quot;min-height:0px&quot;&gt;&#10;    &lt;/div&gt;&#10;&#10;  &lt;div class=&quot;js-machine-translated-tweet-container&quot;&gt;&lt;/div&gt;&#10;    &lt;div class=&quot;js-tweet-stats-container tweet-stats-container &quot;&gt;&#10;    &lt;/div&gt;&#10;&#10;    &lt;div class=&quot;client-and-actions&quot;&gt;&#10;  &lt;span class=&quot;metadata&quot;&gt;&#10;    &lt;span&gt;{{ formatDate this.post.record.createdAt 'hh:mm A - D MMM YY' }}&lt;/span&gt;&#10;&#10;       &amp;middot; &lt;a class=&quot;permalink-link js-permalink js-nav&quot; href=&quot;/profile/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}&quot;  tabindex=&quot;-1&quot;&gt;Details&lt;/a&gt;&#10;    &#10;&#10;&#10;  &lt;/span&gt;&#10;&lt;/div&gt;&#10;&#10;&#10;&lt;/div&gt;&#10;" data-component-context="in_reply_to" data-you-follow="false" data-you-block="false">
+        <div class="content">
+          <div class="stream-item-header"> <a  class="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="/profile/{{ this.post.author.handle }}" data-user-id="{{ this.post.author.did }}"> <img class="avatar js-action-profile-avatar" src="{{ this.post.author.avatar }}" alt=""> <strong class="fullname js-action-profile-name show-popup-with-id">{{ emojiBytecode this.post.author.displayName }}</strong> <span>&rlm;</span><span class="username js-action-profile-name"><s>@</s><b>{{ this.post.author.handle }}</b></span> </a> <small class="time"> <a href="/profile/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}" class="tweet-timestamp js-permalink js-nav js-tooltip" title="{{ formatDate this.post.record.createdAt 'hh:mm A - D MMM YY' }}" ><span class="_timestamp js-short-timestamp " data-time="{{ formatDate this.post.record.createdAt 'X' }}" data-time-ms="{{ formatDate this.post.record.createdAt 'x' }}" data-long-form="true">11 Jul 2012</span></a></small> </div>
+          <p class="js-tweet-text tweet-text">{{ this.post.record.text }}</p>
+          <div class="stream-item-footer clearfix"> <a class="details with-icn js-details" href="/profile/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}"> <span class="details-icon js-icon-container"> </span> <b> <span class="simple-details-link">Details</span> <span class="expand-stream-item js-view-details"> <span class="expand-action-wrapper"> Expand </span> </span> <span class="collapse-stream-item js-hide-details"> Collapse </span> </b> </a>
+            <ul class="tweet-actions js-actions">
+              <li class="action-reply-container"> <a role="button" class="with-icn js-action-reply js-tooltip" data-modal="tweet-reply" href="#"> <span class="Icon Icon--reply"></span> <b>Reply</b> </a> </li>
+              <li class="action-rt-container js-toggle-state js-toggle-rt"> <a role="button" class="with-icn retweet js-tooltip" data-modal="tweet-retweet" href="#"> <span class="Icon Icon--retweet"></span> <b>Retweet</b> </a> <a role="button" class="with-icn undo-retweet js-tooltip" data-modal="tweet-retweet" href="#"> <span class="Icon Icon--retweet"></span> <b>Retweeted</b> </a> </li>
+              <li class="action-del-container"> <a role="button" class="with-icn js-action-del js-tooltip" href="#"> <span class="Icon Icon--delete"></span> <b>Delete</b> </a> </li>
+              <li class="action-fav-container js-toggle-state js-toggle-fav"> <a role="button" class="with-icn favorite js-tooltip" href="#"> <span class="Icon Icon--favorite"></span> <b>Favorite</b> </a> <a role="button" class="with-icn unfavorite js-tooltip" href="#"> <span class="Icon Icon--favorite"></span> <b>Favorited</b> </a> </li>
+              <li class="more-tweet-actions">
+                <div class="action-more-container">
+                  <div class="dropdown">
+                    <button type="button" class="btn-link with-icn dropdown-toggle js-dropdown-toggle js-tooltip"> <span class="Icon Icon--dots"></span> <b>More</b> </button>
+                    <div class="dropdown-menu">
+                      <div class="dropdown-caret">
+                        <div class="caret-outer"></div>
+                        <div class="caret-inner"></div>
+                      </div>
+                      <ul>
+                        <li class="embed-link js-actionEmbedTweet" data-nav="embed_tweet">
+                          <button type="button" class="dropdown-link">Embed Tweet</button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="expanded-content js-tweet-details-dropdown"> </div>
+        </div>
+      </div>
+    </li>
+  </ol>
+</div>
+{{/if}}{{/each}}{{else}} {{/if}} 

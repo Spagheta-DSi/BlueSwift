@@ -1,0 +1,296 @@
+{{#each feed}}
+{{#if this.post}}
+<li class="js-stream-item stream-item stream-item expanding-stream-item" data-item-id="{{ this.post.uri }}" id="stream-item-tweet-{{ this.post.uri }}" data-item-type="tweet">
+    
+
+
+  
+
+<div class="tweet original-tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable js-original-tweet with-social-proof" data-feedback-key="stream_status_{{ this.post.uri }}" data-tweet-id="{{ this.post.uri }}" data-item-id="{{ this.post.uri }}" data-screen-name="{{ this.post.author.handle }}" data-name="{{ this.post.author.displayName }}" data-user-id="{{ this.post.author.did }}" data-expanded-footer="<div class=&quot;js-tweet-details-fixer tweet-details-fixer&quot;>
+
+
+
+  <div class=&quot;js-tweet-media-container &quot;></div>
+    <div class=&quot;entities-media-container &quot; style=&quot;min-height:0px&quot;>
+    </div>
+
+  <div class=&quot;js-machine-translated-tweet-container&quot;></div>
+  <div class=&quot;js-tweet-stats-container tweet-stats-container already-open&quot;>
+  {{#if this.post.record.embed.images}}
+<div class=&quot;js-tweet-details-fixer tweet-details-fixer&quot;>
+
+
+
+        <div class=&quot;cards-media-container &quot;><div data-card-url=&quot;{{ this.post.embed.images.0.fullsize }}&quot; data-card-type=&quot;photo&quot; class=&quot;cards-base cards-multimedia&quot; data-element-context=&quot;platform_photo_card&quot;>
+  <div class=&quot;media&quot;>
+    
+    <a class=&quot;twitter-timeline-link media-thumbnail&quot; href=&quot;{{ this.post.embed.images.0.fullsize }}&quot; data-url=&quot;{{ this.post.embed.images.0.fullsize }}&quot; data-resolved-url-large=&quot;{{ this.post.embed.images.0.fullsize }}&quot;>
+      <img src=&quot;{{ this.post.embed.images.0.thumb }}&quot; alt=&quot;Embedded image permalink&quot; >
+    </a>
+  </div>
+  <div class=&quot;cards-content&quot;>
+    <div class=&quot;byline&quot;>
+      
+    </div>
+    
+  </div>
+  
+</div>
+{{/if}}
+{{#if this.post.record.embed.external}}<div class=&quot;js-tweet-details-fixer tweet-details-fixer&quot;>
+
+
+      <div class=&quot;card2 &quot; data-card2-name=&quot;summary&quot;>
+        <div class=&quot;card2-summary util-cf card2-holder&quot; data-card2-url=&quot;{{ this.post.record.embed.external.uri }}&quot;>
+  <div class=&quot;card2-attribution util-text-small&quot;>
+    <a class=&quot;card2-profile-link util-link-complex util-text-normal js-action-profile js-user-profile-link&quot; data-user-id=&quot;{{ this.post.author.did }}&quot; href=&quot;/profile/{{ this.post.author.handle }}&quot;>
+      <img class=&quot;util-align-middle util-rounded&quot; src=&quot;{{ this.post.author.avatar }}&quot; width=&quot;18&quot; height=&quot;18&quot; alt=&quot;&quot;><b class=&quot;util-link-complex-target util-align-middle&quot;>{{ this.post.author.displayName }}</b>
+    </a>
+</div>
+
+
+
+
+  <a href=&quot;{{ this.post.embed.external.uri }}&quot; target=&quot;_blank&quot; class=&quot;js-card2-external-link&quot;>
+  <img class=&quot;util-pull-end card2-thumbnail&quot; src=&quot;{{ this.post.embed.external.thumb }}&quot; alt=&quot;&quot;>
+</a>
+
+
+  <div class=&quot;util-nbfc&quot;>
+    <h3 class=&quot;card2-title&quot;>
+  <a class=&quot;js-card2-external-link util-text-normal util-text-ltr&quot; href=&quot;{{ this.post.embed.external.uri }}&quot; target=&quot;_blank&quot;>
+    {{ this.post.embed.external.title }}
+  </a>
+</h3>
+
+
+<p class=&quot;card2-description&quot;>
+  <a class=&quot;js-card2-external-link util-link-block util-text-break twitter-timeline-link&quot; target=&quot;_blank&quot; href=&quot;{{ this.post.embed.external.uri }}&quot;>
+    <span class=&quot;util-text-normal util-text-ltr&quot;>
+      {{ this.post.embed.external.description }}
+    </span>
+  </a>
+</p>
+
+
+    <div class=&quot;card2-footer&quot;>
+  <a href=&quot;{{ this.post.embed.external.uri }}&quot; target=&quot;_blank&quot; class=&quot;js-card2-external-link&quot;>
+    View on web
+  </a>
+</div>
+
+
+  </div>
+</div>
+
+</div>
+{{/if}}
+
+  </div>
+  <div class=&quot;client-and-actions&quot;>
+    <span class=&quot;metadata&quot;>
+      <span title=&quot;{{ formatDate this.post.record.createdAt 'hh:mm A - D MMM YY' }}&quot;>{{ formatDate this.post.record.createdAt 'hh:mm A - D MMM YY' }}</span>
+
+      
+
+
+           &amp;middot; <a class=&quot;permalink-link js-permalink js-nav&quot; href=&quot;/profile/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}&quot; >Details</a>
+
+      
+
+
+    </span>
+  </div>
+</div>">
+
+    
+    <i class="dogear"></i>
+
+    
+    <div class="content">
+
+      
+      <div class="stream-item-header">
+          <a class="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="/profile/{{ this.post.author.displayName }}" data-user-id="{{ this.post.author.did }}">
+    <img class="avatar js-action-profile-avatar" src="{{ this.post.author.avatar }}" alt="{{ this.post.author.displayName }}">
+    <strong class="fullname js-action-profile-name show-popup-with-id">{{ this.post.author.displayName }}</strong>
+    <span>‏</span><span class="username js-action-profile-name"><s>@</s><b>{{ this.post.author.handle }}</b></span>
+    
+  </a>
+
+        <small class="time">
+    <a href="/profile/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}" class="tweet-timestamp js-permalink js-nav" title="{{ formatDate this.post.record.createdAt 'hh:mm A - D MMM YY' }}"><span class="_timestamp js-short-timestamp js-relative-timestamp" data-time="{{ formatDate this.post.record.createdAt 'x' }}" data-long-form="true">6h</span></a>
+</small>
+
+      </div>
+
+      
+
+      <p class="js-tweet-text">{{ this.post.record.text }}</p>
+
+      
+      <div class="stream-item-footer">
+        
+{{#if this.post.embed.images}}
+<div class="cards-media-container js-media-container"><div data-card-url="{{ this.post.embed.images.0.fullsize }}" data-card-type="photo" class="cards-base cards-multimedia" data-element-context="platform_photo_card">
+  <div class="media media-forward">
+    
+    <a class="twitter-timeline-link media-thumbnail is-preview" href="{{ this.post.embed.images.0.fullsize }}" data-url="{{ this.post.embed.images.0.fullsize }}" data-resolved-url-large="{{ this.post.embed.images.0.fullsize }}" loaded="true">
+      <img src="{{ this.post.embed.images.0.thumb }}" alt="Embedded image permalink" width="100%" style="margin-top: -69px">
+    </a>
+  </div>
+  <div class="cards-content">
+    <div class="byline">
+      
+    </div>
+    
+  </div>
+  
+</div>
+
+
+
+</div>
+{{/if}}
+{{#if this.reason}}
+<div class="context">
+          <span class="with-icn">
+            <i class="badge-retweeted"></i>
+            <span class="js-retweet-text">Retweeted by <a class="pretty-link js-user-profile-link" href="/profile/{{ this.reason.by.handle }}" data-user-id="{{ this.post.author.did }}"><b>{{ this.reason.by.displayName }}</b></a></span>
+          </span>
+</div>
+
+
+            {{#if this.post.record.embed.images}}
+            <a class="details with-icn js-details" href="/profile/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}">
+              <span class="details-icon js-icon-container">
+                  <i class="sm-image"></i>
+
+            </span>
+            <b>
+              <span class="expand-stream-item js-view-details">
+                View photo
+              </span>
+              <span class="collapse-stream-item js-hide-details">
+                Hide photo
+              </span>
+            </b>
+          </a>
+          {{else}}
+          <a class="details with-icn js-details" href="/profile/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}">
+            <span class="details-icon js-icon-container">
+
+            </span>
+            <b>
+            
+                  <span class="expand-action-wrapper">
+                    Expand
+                  </span>
+              </span>
+              <span class="collapse-stream-item js-hide-details">
+                Collapse
+              </span>
+              {{/if}}
+            </b>
+          </a>
+{{else}}
+<div class="context">
+</div>
+
+
+          
+          <a class="details with-icn js-details" href="/profile/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}">
+            <span class="details-icon js-icon-container">
+              
+            </span>
+            <b>
+              <span class="expand-stream-item js-view-details">
+                
+                  <span class="expand-action-wrapper">
+                    Expand
+                  </span>
+              </span>
+              <span class="collapse-stream-item js-hide-details">
+                Collapse
+              </span>
+            </b>
+          </a>
+{{/if}}
+        
+        
+
+<ul class="tweet-actions js-actions">
+  <li class="action-reply-container">
+    <a role="button" class="with-icn js-action-reply" data-modal="tweet-reply" href="#">
+      <span class="icon sm-reply"></span>
+      <b>Reply</b>
+    </a>
+  </li>
+  <li class="action-rt-container js-toggle-state js-toggle-rt">
+    <a role="button" class="with-icn retweet" data-modal="tweet-retweet" href="#">
+      <span class="icon sm-rt"></span>
+      <b>Retweet</b>
+    </a>
+    <a role="button" class="with-icn undo-retweet" data-modal="tweet-retweet" href="#" title="Undo retweet">
+      <span class="icon sm-rt"></span>
+      <b>Retweeted</b>
+    </a>
+  </li>
+  <li class="action-del-container">
+    <a role="button" class="with-icn js-action-del" href="#">
+      <span class="icon sm-trash"></span>
+      <b>Delete</b>
+    </a>
+  </li>
+  <li class="action-fav-container js-toggle-state js-toggle-fav">
+      <a role="button" class="with-icn favorite" href="#">
+        <span class="icon sm-fav"></span>
+        <b>Favorite</b>
+      </a>
+      <a role="button" class="with-icn unfavorite" href="#" title="Undo favorite">
+        <span class="icon sm-fav"></span>
+        <b>Favorited</b>
+      </a>
+  </li>
+
+        <li class="more-tweet-actions">
+  <div class="action-more-container">
+    <div class="dropdown">
+      <button type="button" class="btn-link with-icn dropdown-toggle">
+        <i class="sm-more"></i>
+        <b>More</b>
+      </button>
+      <ul class="dropdown-menu">
+        <li class="dropdown-caret">
+          <span class="caret-outer"></span>
+          <span class="caret-inner"></span>
+        </li>
+          <li class="embed-link">
+            <a class="js-embed-tweet" href="#" data-nav="embed_tweet">Embed Tweet</a>
+          </li>
+      </ul>
+    </div>
+  </div>
+</li>
+
+
+
+
+  
+</ul>
+
+      </div>
+
+      
+      <div class="expanded-content js-tweet-details-dropdown">
+    
+    
+    
+</div>
+
+
+    </div>
+  </div>
+</li>
+{{/if}}
+{{/each}}
