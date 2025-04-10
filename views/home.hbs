@@ -1120,63 +1120,142 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
 
       
       <div class="modal-body">
-
-        <div class="keyboard-shortcuts clearfix" id="keyboard-shortcut-menu">
-
-          <table class="modal-table">
+        <div id="keyboard-shortcut-menu" class="keyboard-shortcuts clearfix" align="left">
+          <p class="visuallyhidden">Note: Screen reader users might need to turn off virtual navigation to use this shortcut.</p>
+          <table class="modal-table" summary="Shortcuts for basic functions.">
+            <thead>
+              <tr>
+                <th colspan="2">Actions</th>
+              </tr>
+            </thead>
             <tbody>
               <tr>
-                <td class="shortcut">
-                  <b class="sc-key">Enter</b>
-                </td>
+                <td class="shortcut"><b class="sc-key">N</b></td>
+                <td class="shortcut-label">New Tweet</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">F</b></td>
+                <td class="shortcut-label">Favorite</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">R</b></td>
+                <td class="shortcut-label">Reply</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">T</b></td>
+                <td class="shortcut-label">Retweet</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">M</b></td>
+                <td class="shortcut-label">Direct message</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">B</b></td>
+                <td class="shortcut-label">Block User</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">U</b></td>
+                <td class="shortcut-label">Unblock User</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">Enter</b></td>
                 <td class="shortcut-label">Open Tweet details</td>
               </tr>
               <tr>
-                <td class="shortcut">
-                  <b class="sc-key">G</b> <b class="sc-key">F</b>
-                </td>
-                <td class="shortcut-label">Go to user...</td>
+                <td class="shortcut"><b class="sc-key">L</b></td>
+                <td class="shortcut-label">Close all open Tweets</td>
               </tr>
               <tr>
-                <td class="shortcut">
-                  <b class="sc-key">?</b>
-                </td>
+                <td class="shortcut"><b class="sc-key">/</b></td>
+                <td class="shortcut-label">Search</td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="modal-table" summary="Shortcuts to toggle between items on the timeline.">
+            <thead>
+              <tr>
+                <th colspan="2">Navigation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="shortcut"><b class="sc-key">?</b></td>
                 <td class="shortcut-label">This menu</td>
               </tr>
               <tr>
-                <td class="shortcut">
-                  <b class="sc-key">J</b>
-                </td>
+                <td class="shortcut"><b class="sc-key">J</b></td>
                 <td class="shortcut-label">Next Tweet</td>
               </tr>
               <tr>
-                <td class="shortcut">
-                  <b class="sc-key">K</b>
-                </td>
+                <td class="shortcut"><b class="sc-key">K</b></td>
                 <td class="shortcut-label">Previous Tweet</td>
               </tr>
               <tr>
-                <td class="shortcut">
-                  <b class="sc-key">Space</b>
-                </td>
+                <td class="shortcut"><b class="sc-key">Space</b></td>
                 <td class="shortcut-label">Page down</td>
               </tr>
               <tr>
-                <td class="shortcut">
-                  <b class="sc-key">/</b>
-                </td>
-                <td class="shortcut-label">Search</td>
+                <td class="shortcut"><b class="sc-key">.</b></td>
+                <td class="shortcut-label">Load new Tweets</td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="modal-table" summary="Shortcuts to other timelines or pages.">
+            <thead>
+              <tr>
+                <th colspan="2">Timelines</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="shortcut"><b class="sc-key">G</b> <b class="sc-key">H</b></td>
+                <td class="shortcut-label">Home</td>
               </tr>
               <tr>
-                <td class="shortcut">
-                  <b class="sc-key">.</b>
-                </td>
-                <td class="shortcut-label">Load new Tweets</td>
+                <td class="shortcut"><b class="sc-key">G</b> <b class="sc-key">C</b></td>
+                <td class="shortcut-label">Connect</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">G</b> <b class="sc-key">A</b></td>
+                <td class="shortcut-label">Activity</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">G</b> <b class="sc-key">R</b></td>
+                <td class="shortcut-label">Mentions</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">G</b> <b class="sc-key">D</b></td>
+                <td class="shortcut-label">Discover</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">G</b> <b class="sc-key">P</b></td>
+                <td class="shortcut-label">Profile</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">G</b> <b class="sc-key">F</b></td>
+                <td class="shortcut-label">Favorites</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">G</b> <b class="sc-key">L</b></td>
+                <td class="shortcut-label">Lists</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">G</b> <b class="sc-key">M</b></td>
+                <td class="shortcut-label">Messages</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">G</b> <b class="sc-key">S</b></td>
+                <td class="shortcut-label">Settings</td>
+              </tr>
+              <tr>
+                <td class="shortcut"><b class="sc-key">G</b> <b class="sc-key">U</b></td>
+                <td class="shortcut-label">Go to user...</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+
     </div>
   </div>
 </div>
