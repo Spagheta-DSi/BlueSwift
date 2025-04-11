@@ -1,4 +1,4 @@
-# not-twitter
+# BlueSwift
 A Bluesky web client based off 2013 Twitter
 
 ## `.env` Variables

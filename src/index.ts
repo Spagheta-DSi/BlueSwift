@@ -18,7 +18,7 @@ dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
-const appname = process.env.APP_NAME || "Not Twitter";
+const appname = process.env.APP_NAME || "BlueSwift";
 
 app.set('view engine', 'hbs');
 app.engine('hbs', engine({

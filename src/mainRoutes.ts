@@ -41,7 +41,6 @@ mainRoutes.get('/profile/:handle/status/:rkey', async (req: Request, res: Respon
 		const didData = getDid.data;
 		const getLikes = await agent.app.bsky.feed.getLikes({uri: `at://${didData.did}/app.bsky.feed.post/${rkey}`, limit: 9});
 		const likesData = getLikes.data;
-		console.log(likesData);
 		
 		res.render('post', { appname: appname, year: d.getFullYear(), data: threadData.thread, likes: likesData.likes });
 	} catch(error) {
@@ -96,8 +95,6 @@ mainRoutes.get('/home', async (req: Request, res: Response) => {
 		const curUserProf = await agent.app.bsky.actor.getProfile({ actor: currentUser });
 		const userProfData = curUserProf.data;
 		
-		//console.log(timelineData, userProfData);
-
 		res.render('home', { appname: appname, year: d.getFullYear(), timeline: timelineData, profileData: userProfData });
 	} catch(error) {
 		res.status(500).send("Cannot fetch data");
