@@ -3,7 +3,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import { authAgent, agent } from './api';
 
 const mainRoutes = express.Router();
-const appname = process.env.APP_NAME || "Not Twitter";
+const appname = process.env.APP_NAME || "BlueSwift";
 const d: Date = new Date();
 
 mainRoutes.get('/', (req: Request, res: Response) => {

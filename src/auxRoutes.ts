@@ -6,7 +6,7 @@ import { AtUri } from '@atproto/syntax';
 import multer from 'multer';
 
 const auxRoutes = express.Router();
-const appname = process.env.APP_NAME || "Not Twitter";
+const appname = process.env.APP_NAME || "BlueSwift";
 
 interface Template {
     name: string;
