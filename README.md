@@ -11,7 +11,7 @@ A Bluesky web client based off 2013 Twitter
 1. Clone the repository.
 
 ```bash 
-git clone https://github.com/Spagheta-DSi/not-twitter.git
+git clone https://github.com/Spagheta-DSi/BlueSwift.git
 ```
 
 2. Duplicate and rename `.env.example` as `.env`.
