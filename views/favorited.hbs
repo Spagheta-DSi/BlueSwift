@@ -1,0 +1,17 @@
+<ol class="activity-popup-users">
+{{#each likes}}
+{{#if actor}}
+  <li class="js-stream-item stream-item stream-item" data-item-id="{{ actor.did }}" id="stream-item-user-{{ actor.did }}" data-item-type="user">
+    <div class="account   js-actionable-user js-profile-popup-actionable " data-screen-name="{{ actor.handle }}" data-user-id="{{ actor.did }}"   >
+      <div class="user-actions btn-group not-following  " data-user-id="{{ actor.did }}"         data-screen-name="{{ actor.handle }}" data-name="{{ actor.displayName }}" data-protected="false">
+        <button class="js-follow-btn follow-button btn" type="button"> <span class="button-text follow-text"> <i class="follow"></i> Follow </span> <span class="button-text following-text"> Following </span> <span class="button-text unfollow-text"> Unfollow </span> <span class="button-text blocked-text">Blocked</span> <span class="button-text unblock-text">Unblock</span> <span class="button-text pending-text">Pending</span> <span class="button-text cancel-text">Cancel</span> </button>
+      </div>
+      <div class="content">
+        <div class="stream-item-header"> <a class="account-group js-user-profile-link" href="/profile/{{ actor.handle }}"> <img class="avatar js-action-profile-avatar " src="{{ actor.avatar }}" alt="{{ actor.displayName }}" data-user-id="{{ actor.did }}"/> <strong class="fullname js-action-profile-name">{{ actor.displayName }}</strong> <span>&rlm;</span> <span class="username js-action-profile-name">@{{ actor.handle }}</span> </a> </div>
+        <div class="followers-count"> <strong>37</strong> Followers</div>
+      </div>
+    </div>
+  </li>
+{{/if}}
+{{/each}}
+</ol>

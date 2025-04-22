@@ -585,7 +585,7 @@ body {
 
     <div class="profile-card-inner" data-screen-name="{{ data.handle }}" data-user-id="{{ data.did }}">
       <h1 class="fullname editable-group">
-          <span class="profile-field">{{ data.displayName }}</span>
+          <span class="profile-field">{{ data.displayName }} {{#if data.verification}}<a href="/help/verified" class="verified-link js-tooltip" data-placement="right" data-original-title="Verified account"><span class="icon verified verified-large-border"><span class="visuallyhidden">Verified account</span></span></a>{{/if}}</span>
 
 
 
@@ -705,15 +705,13 @@ body {
       <h2 class="js-timeline-title">Tweets
           <small class="view-toggler"><a class="toggle-item-1  js-nav" href="/profile/{{ data.handle }}/with_replies">All</a> / <a class="toggle-item-2 active js-nav" href="/profile/{{ data.handle }}">No replies</a></small>
       </h2>
-  {{else}}
+{{else}}
       <h2 class="js-timeline-title">Tweets
       </h2>
 {{/if}}
     </div>
   </div>
-{{#if feed}}
-      <div class="stream-container" data-max-id="{{#if this}}{{ this.cursor }}{{else}}-1{{/if}}" data-since-id="{{#if this.post.[0]}}{{ this.post.[0].indexedAt }}{{else}}{{/if}}">
-{{/if}}
+      <div class="stream-container" data-max-id="{{#if feed}}{{ this.cursor }}{{else}}-1{{/if}}" data-since-id="{{#if feed.post.[0]}}{{ feed.post.[0].indexedAt }}{{else}}{{/if}}">
     <div class="stream profile-stream">
       <ol class="stream-items" id="stream-items-id">
 {{#each feed}}

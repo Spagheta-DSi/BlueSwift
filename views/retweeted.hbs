@@ -1,0 +1,22 @@
+<ol class="activity-popup-users"><br><br>
+{{#each retweet}}
+{{#if this.repostedBy}}
+  <li class="js-stream-item stream-item stream-item" retweet-item-id="{{ this.repostedBy.did }}" id="stream-item-user-{{ this.repostedBy.did }}" retweet-item-type="user">
+    <div class="account  js-actionable-user js-profile-popup-actionable " retweet-screen-name="{{ this.repostedBy.handle }}" retweet-user-id="{{ this.repostedBy.did }}" retweet-feedback-token="" retweet-impression-id="" >
+      <div class="context"> </div>
+      <div class="follow-bar">
+        <div class="user-actions btn-group not-following  " retweet-user-id="{{ this.repostedBy.did }}"    retweet-screen-name="{{ this.repostedBy.handle }}" retweet-name="{{ this.repostedBy.displayName }}" retweet-protected="false">
+        <button class="js-follow-btn follow-button btn" type="button"> <span class="button-text follow-text"> <i class="follow"></i> Follow </span> <span class="button-text following-text"> Following </span> <span class="button-text unfollow-text"> Unfollow </span> <span class="button-text blocked-text">Blocked</span> <span class="button-text unblock-text">Unblock</span> <span class="button-text pending-text">Pending</span> <span class="button-text cancel-text">Cancel</span> </button>
+        </div>
+      </div>
+      <div class="activity-user-profile-content">
+        <div class="content">
+          <div class="stream-item-header"> <a class="account-group js-user-profile-link" href="/profile/{{ this.repostedBy.handle }}" > <img class="avatar js-action-profile-avatar  " src="{{ this.repostedBy.avatar }}" alt="" retweet-user-id="{{ this.repostedBy.did }}"/> <strong class="fullname js-action-profile-name">{{ this.repostedBy.displayName }}</strong> <span class="username js-action-profile-name">@{{ this.repostedBy.handle }}</span> </a> </div>
+          <p class="bio "> {{ this.repostedBy.description }} </p>
+        </div>
+      </div>
+    </div>
+  </li>
+{{/if}}
+{{/each}}
+</ol>

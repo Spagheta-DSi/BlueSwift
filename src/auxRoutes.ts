@@ -13,6 +13,10 @@ interface Template {
     data: any;
 }
 
+auxRoutes.post('/i/jot', async (req: Request, res: Response) => {
+	res.status(200).send('');
+});
+
 auxRoutes.get('/i/expanded/batch/:id', async (req: Request, res: Response) => {
 	const { id } = req.params;
 	
@@ -66,6 +70,7 @@ interface RequestQuery {
 	user_id: string;
 	id: string;
 	count: number;
+	limit: number;
 	q: string;
 	result_type: string;
 	max_id: string;
@@ -99,6 +104,63 @@ auxRoutes.get('/i/profiles/popup', async (req: Request, res: Response) => {
 		res.status(500).send("Cannot fetch data");
 	}
 });
+
+auxRoutes.get('/i/activity/favorited_popup', async (req: Request, res: Response) => {	
+	try {
+	const { id } = req.query as unknown as RequestQuery;
+			
+	res.set({'Content-Type': 'application/json'});
+	const getThread = await agent.app.bsky.feed.getPostThread({uri: id});
+    const threadData = getThread.data;
+	const getLikes = await agent.app.bsky.feed.getLikes({uri: id});
+	const likesData = getLikes.data;
+	
+	res.render('favorited', { data: threadData, likes: likesData.likes }, function(e, renderedHtml) {
+		if (e) {
+			console.error('Error:', e);
+		} else {
+			const popup = {
+				htmlTitle: `      Favorited X times`,
+				htmlUsers: renderedHtml,
+			};
+			
+			res.json(popup);
+		};
+	});
+	
+	} catch(error) {
+		res.status(500).send("Cannot fetch data");
+	}
+});
+
+auxRoutes.get('/i/activity/retweeted_popup', async (req: Request, res: Response) => {	
+	try {
+	const { id } = req.query as unknown as RequestQuery;
+			
+	res.set({'Content-Type': 'application/json'});
+	const getThread = await agent.app.bsky.feed.getPostThread({uri: id});
+    const threadData = getThread.data;
+	const getReposts = await agent.app.bsky.feed.getRepostedBy({uri: id});
+	const repostsData = getReposts.data;
+
+	res.render('retweeted', { data: threadData, retweet: repostsData }, function(e, renderedHtml) {
+		if (e) {
+			console.error('Error:', e);
+		} else {
+			const popup = {
+				htmlTitle: `      Retweeted X times`,
+				htmlUsers: renderedHtml,
+			};
+			
+			res.json(popup);
+		};
+	});
+	
+	} catch(error) {
+		res.status(500).send("Cannot fetch data");
+	}
+});
+
 
 auxRoutes.post('/i/tweet/create', async (req: Request, res: Response) => {
 	const { status } = req.body;
@@ -282,6 +344,45 @@ auxRoutes.get('/i/profiles/show/:handle/timeline/with_replies', async (req: Requ
 });*/
 
 
+auxRoutes.get('/i/users/recommendations', async (req: Request, res: Response) => {	
+	try {
+	const { limit } = req.query as unknown as RequestQuery;
+	const handle = req.cookies['handle'];
+	const password = req.cookies['password'];
+	
+	res.set({'Content-Type': 'application/json'});
+
+	if (handle || password) {
+		await authAgent.login({
+			identifier: handle,
+			password: password
+		});
+		
+		const getSuggestions = await authAgent.app.bsky.graph.getSuggestedFollowsByActor({actor: handle});
+		const suggestionsData = getSuggestions.data;
+				
+		res.render('user_recommendations_html', { data: suggestionsData }, function(e, renderedHtml) {
+			if (e) {
+				console.error('Error:', e);
+			} else {
+				const user_recommendations = {
+					user_recommendations_html: renderedHtml,
+				};
+			
+				res.json(user_recommendations);
+			};
+		});
+	} else {
+		const user_recommendations_html = "";
+		res.json(user_recommendations_html);	
+	}
+
+	} catch(error) {
+		res.status(500).send("Cannot fetch data");
+	}
+});
+
+
 auxRoutes.get('/api/1/statuses/oembed.:format', async (req: Request, res: Response) => {	
 	try {
 	const { id } = req.query as unknown as RequestQuery;
@@ -294,7 +395,7 @@ auxRoutes.get('/api/1/statuses/oembed.:format', async (req: Request, res: Respon
 		if (format=='json') {
 			res.set({'Content-Type': 'application/json'});
 			
-			res.render('oembed_html', { data: threadData.thread }, function(e, renderedHtml) {
+			res.render('oembed_html', { data: threadData.thread, host: host }, function(e, renderedHtml) {
 			if (e) {
 				console.error('Error:', e);
 			} else {

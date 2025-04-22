@@ -1,4 +1,4 @@
-// src/mainRouter.ts
+// src/mainRoutes.ts
 import express, { Request, Response, NextFunction } from 'express';
 import { authAgent, agent } from './api';
 
@@ -95,6 +95,8 @@ mainRoutes.get('/home', async (req: Request, res: Response) => {
 		const curUserProf = await agent.app.bsky.actor.getProfile({ actor: currentUser });
 		const userProfData = curUserProf.data;
 		
+		//console.log(timelineData, userProfData);
+
 		res.render('home', { appname: appname, year: d.getFullYear(), timeline: timelineData, profileData: userProfData });
 	} catch(error) {
 		res.status(500).send("Cannot fetch data");

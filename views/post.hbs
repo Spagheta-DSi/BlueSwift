@@ -545,14 +545,14 @@ data-item-id="{{ data.post.uri }}"
 
             <a  class="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="/profile/{{ data.post.author.handle }}" data-user-id="{{ data.post.author.did }}">
     <img class="avatar js-action-profile-avatar" src="{{ data.post.author.avatar }}" alt="{{ data.post.author.displayName }}">
-    <strong class="fullname js-action-profile-name show-popup-with-id">{{ data.post.author.displayName }}<span class="visuallyhidden">Verified account</span></span></strong>
+    <strong class="fullname js-action-profile-name show-popup-with-id">{{ data.post.author.displayName }}{{#if data.post.author.verification}}<span class="icon verified"><span class="visuallyhidden">Verified account</span></span>{{else}}<span class="visuallyhidden">Verified account</span></span>{{/if}}</strong>
     <span>&rlm;</span><span class="username js-action-profile-name"><s>@</s><b>{{ data.post.author.handle }}</b></span>
     
   </a>
 
           
           <small class="time">
-    <a href="/twitter/status/339797573697163264" class="tweet-timestamp js-permalink js-nav" title="10:37 AM - 29 May 13" ><span class="_timestamp js-short-timestamp js-relative-timestamp" data-time="1369849029" data-long-form="true">15h</span></a>
+    <a href="/profile/{{ data.post.author.handle }}/status/{{ getRkey data.post.uri }}" class="tweet-timestamp js-permalink js-nav" title="{{ formatDate data.post.record.createdAt 'hh:mm A - D MMM YY' }}" ><span class="_timestamp js-short-timestamp js-relative-timestamp" data-time="{{ formatDate data.post.record.createdAt 'x' }}" data-long-form="true">15h</span></a>
 </small>
 
         </div>
@@ -733,7 +733,7 @@ data-item-id="{{ data.post.uri }}"
       <a tabindex="0"
           class="request-retweeted-popup"
           data-activity-popup-title="  
-  Retweeted {{ data.post.repostCount }} times
+  Retweeted {{ formatNumber data.post.repostCount }} times
 "
       >
           
@@ -745,7 +745,7 @@ data-item-id="{{ data.post.uri }}"
       <a tabindex="0"
           class="request-favorited-popup"
           data-activity-popup-title="    
-    Favorited {{ data.post.likeCount }} times
+    Favorited {{ formatNumber data.post.likeCount }} times
 "
       >
             
@@ -991,8 +991,9 @@ data-item-id="{{ getRkey data.post.uri }}"
 
 
 
-{{#each data.replies}}
-{{#if this.replies.post}}
+{{#each thread.replies}}
+{{ log this }}
+{{#if post}}
     <li>
       
       
@@ -1009,14 +1010,14 @@ data-item-id="{{ getRkey data.post.uri }}"
 
 
  descendant" 
-data-feedback-key="stream_status_{{ this.replies.post.cid }}"
-data-tweet-id="{{ this.replies.post.cid }}"
+data-feedback-key="stream_status_{{ this.post.cid }}"
+data-tweet-id="{{ this.post.cid }}"
 
 
-data-item-id="{{ this.replies.post.cid }}"
+data-item-id="{{ this.post.cid }}"
 
 
- data-screen-name="{{ this.replies.post.author.handle }}" data-name="{{ this.replies.post.author.displayName }}" data-user-id="{{ this.replies.post.author.did }}"
+ data-screen-name="{{ this.post.author.handle }}" data-name="{{ this.post.author.displayName }}" data-user-id="{{ this.post.author.did }}"
 
 
 
@@ -1024,7 +1025,7 @@ data-item-id="{{ this.replies.post.cid }}"
 
  data-has-parent-tweet="true" 
 
-data-expanded-footer="&lt;div class=&quot;js-tweet-details-fixer tweet-details-fixer&quot;&gt;&#10;&#10;&#10;&#10;&#10;  &lt;div class=&quot;js-tweet-media-container &quot;&gt;&lt;/div&gt;&#10;    &lt;div class=&quot;entities-media-container &quot; style=&quot;min-height:0px&quot;&gt;&#10;    &lt;/div&gt;&#10;&#10;  &lt;div class=&quot;js-machine-translated-tweet-container&quot;&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;js-tweet-stats-container tweet-stats-container &quot;&gt;&#10;  &lt;/div&gt;&#10;  &lt;div class=&quot;client-and-actions&quot;&gt;&#10;    &lt;span class=&quot;metadata&quot;&gt;&#10;      &lt;span title=&quot;10:37 AM - 29 May 13&quot;&gt;10:37 AM - 29 May 13&lt;/span&gt;&#10;&#10;      &#10;&#10;&#10;           &amp;middot; &lt;a class=&quot;permalink-link js-permalink js-nav&quot; href=&quot;/_lennypalm/status/339797759794221057&quot; &gt;Details&lt;/a&gt;&#10;&#10;      &#10;&#10;&#10;    &lt;/span&gt;&#10;  &lt;/div&gt;&#10;&lt;/div&gt;&#10;"
+data-expanded-footer="&lt;div class=&quot;js-tweet-details-fixer tweet-details-fixer&quot;&gt;&#10;&#10;&#10;&#10;&#10;  &lt;div class=&quot;js-tweet-media-container &quot;&gt;&lt;/div&gt;&#10;    &lt;div class=&quot;entities-media-container &quot; style=&quot;min-height:0px&quot;&gt;&#10;    &lt;/div&gt;&#10;&#10;  &lt;div class=&quot;js-machine-translated-tweet-container&quot;&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;js-tweet-stats-container tweet-stats-container &quot;&gt;&#10;  &lt;/div&gt;&#10;  &lt;div class=&quot;client-and-actions&quot;&gt;&#10;    &lt;span class=&quot;metadata&quot;&gt;&#10;      &lt;span title=&quot;{{ formatDate data.post.record.createdAt 'hh:mm A - D MMM YY' }}&quot;&gt;{{ formatDate data.post.record.createdAt 'hh:mm A - D MMM YY' }}&lt;/span&gt;&#10;&#10;      &#10;&#10;&#10;           &amp;middot; &lt;a class=&quot;permalink-link js-permalink js-nav&quot; href=&quot;/_lennypalm/status/339797759794221057&quot; &gt;Details&lt;/a&gt;&#10;&#10;      &#10;&#10;&#10;    &lt;/span&gt;&#10;  &lt;/div&gt;&#10;&lt;/div&gt;&#10;"
 
 
  data-mentions=""
@@ -1043,15 +1044,15 @@ data-expanded-footer="&lt;div class=&quot;js-tweet-details-fixer tweet-details-f
           
           
           <div class="stream-item-header">
-            <a  class="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="/profile/{{ this.replies.post.author.handle }}" data-user-id="{{ this.replies.post.author.handle }}">
-              <img class="avatar js-action-profile-avatar" src="{{ this.replies.post.author.avatar }}" alt="{{ this.replies.post.author.displayName }}">
-              <strong class="fullname js-action-profile-name show-popup-with-id">{{ this.replies.post.author.displayName }}</strong>
-              <span>&rlm;</span><span class="username js-action-profile-name"><s>@</s><b>{{ this.replies.post.author.handle }}</b></span>
+            <a  class="account-group js-account-group js-action-profile js-user-profile-link js-nav" href="/profile/{{ this.post.author.handle }}" data-user-id="{{ this.post.author.handle }}">
+              <img class="avatar js-action-profile-avatar" src="{{ this.post.author.avatar }}" alt="{{ this.post.author.displayName }}">
+              <strong class="fullname js-action-profile-name show-popup-with-id">{{ this.post.author.displayName }}</strong>
+              <span>&rlm;</span><span class="username js-action-profile-name"><s>@</s><b>{{ this.post.author.handle }}</b></span>
               
               </a>
             
             <small class="time">
-              <a href="/profile/{{ this.replies.post.author.handle }}/status/{{ getRkey replies.uri }}" class="tweet-timestamp js-permalink js-nav" title="{{ formatDate this.replies.post.record.createdAt 'hh:mm A - D MMM YY' }}" ><span class="_timestamp js-short-timestamp js-relative-timestamp" data-time="1369849073" data-long-form="true">15h</span></a>
+              <a href="/profile/{{ this.post.author.handle }}/status/{{ getRkey replies.uri }}" class="tweet-timestamp js-permalink js-nav" title="{{ formatDate this.post.record.createdAt 'hh:mm A - D MMM YY' }}" ><span class="_timestamp js-short-timestamp js-relative-timestamp" data-time="1369849073" data-long-form="true">15h</span></a>
               </small>
             
             </div>
@@ -1059,7 +1060,7 @@ data-expanded-footer="&lt;div class=&quot;js-tweet-details-fixer tweet-details-f
           
           
           
-          <p class="js-tweet-text tweet-text">{{ this.replies.post.record.text }}</p>
+          <p class="js-tweet-text tweet-text">{{ this.post.record.text }}</p>
           
           
           
@@ -1068,7 +1069,7 @@ data-expanded-footer="&lt;div class=&quot;js-tweet-details-fixer tweet-details-f
             
             
             
-            <a class="details with-icn js-details" href="/status/{{ this.replies.post.author.handle }}/status/{{ getRkey this.replies.post.uri }}">
+            <a class="details with-icn js-details" href="/status/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}">
               <span class="details-icon js-icon-container">
                 
                 </span>
@@ -1164,7 +1165,6 @@ data-expanded-footer="&lt;div class=&quot;js-tweet-details-fixer tweet-details-f
     </li>
 {{/if}}
 {{/each}}
-    
 </ol>
       <ol class="hidden-replies-container"></ol>
       <div class="stream-autoplay-marker">
@@ -1211,7 +1211,7 @@ data-expanded-footer="&lt;div class=&quot;js-tweet-details-fixer tweet-details-f
 
       <div class="sms-follow">
     <span class="icon"></span>
-      Text <strong>follow twitter</strong> to <strong>40404</strong> in <a href="http://support.twitter.com/articles/14226-how-to-find-your-twitter-short-code-or-long-code" class="sms-codes-link">the United States</a>
+      Text <strong>follow {{ data.post.author.handle }}</strong> to <strong>40404</strong> in <a href="http://support.twitter.com/articles/14226-how-to-find-your-twitter-short-code-or-long-code" class="sms-codes-link">the United States</a>
   </div>
 
   </div>

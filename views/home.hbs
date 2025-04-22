@@ -551,7 +551,7 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
     </div>
   </div>
     <div class="stream-container conversations-enabled"
-    data-max-id="{{#if @first}} {{ timeline.feed.post.cid }} {{else}} -1 {{/if}}" data-since-id="{{#if @last}} {{ timeline.feed.post.cid }} {{else}} {{/if}}"
+    data-max-id="{{#if timeline.feed}}{{ timeline.feed.cursor }}{{else}}-1{{/if}}" data-since-id="{{#if @first}}{{ timeline.feed.post.indexedAt }}{{else}} {{/if}}"
     
     
     >
@@ -567,7 +567,7 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
 
   
 
-<div class="tweet original-tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable js-original-tweet with-social-proof" data-feedback-key="stream_status_{{ getRkey this.post.uri }}" data-tweet-id="{{ getRkey this.post.uri }}" data-item-id="{{ getRkey this.post.uri }}" data-screen-name="{{ this.post.author.handle }}" data-name="{{ this.post.author.displayName }}" data-user-id="{{ this.post.author.did }}" data-expanded-footer="<div class=&quot;js-tweet-details-fixer tweet-details-fixer&quot;>
+<div class="tweet original-tweet js-stream-tweet js-actionable-tweet js-profile-popup-actionable js-original-tweet with-social-proof" data-feedback-key="stream_status_{{ this.post.uri }}" data-tweet-id="{{ this.post.uri }}" data-item-id="{{ this.post.uri }}" data-screen-name="{{ this.post.author.handle }}" data-name="{{ this.post.author.displayName }}" data-user-id="{{ this.post.author.did }}" data-expanded-footer="<div class=&quot;js-tweet-details-fixer tweet-details-fixer&quot;>
 
 
 
@@ -692,27 +692,6 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
       
       <div class="stream-item-footer">
         
-{{#if this.post.embed.images}}
-<div class="cards-media-container js-media-container"><div data-card-url="{{ this.post.embed.images.0.fullsize }}" data-card-type="photo" class="cards-base cards-multimedia" data-element-context="platform_photo_card">
-  <div class="media media-forward">
-    
-    <a class="twitter-timeline-link media-thumbnail is-preview" href="{{ this.post.embed.images.0.fullsize }}" data-url="{{ this.post.embed.images.0.fullsize }}" data-resolved-url-large="{{ this.post.embed.images.0.fullsize }}" loaded="true">
-      <img src="{{ this.post.embed.images.0.thumb }}" alt="Embedded image permalink" width="100%" style="margin-top: -69px">
-    </a>
-  </div>
-  <div class="cards-content">
-    <div class="byline">
-      
-    </div>
-    
-  </div>
-  
-</div>
-
-
-
-</div>
-{{/if}}
 {{#if this.reason}}
 <div class="context">
           <span class="with-icn">
@@ -860,11 +839,11 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
   <div class='timeline-end has-items has-more-items'>
     <div class="stream-end">
   <div class="stream-end-inner ">
-    <!--  <i class="bird-etched"></i>
+    <i class="bird-etched"></i>
 
     <p class="empty-text">
             @{{ data.handle }} hasn&#39;t tweeted yet.
-    </p> -->
+    </p>
         <p><button type='button' class='btn-link back-to-top hidden'>Back to top &uarr;</button></p>
 
   </div>
@@ -1009,8 +988,6 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
 
 
 <div class="modal-overlay"></div>
-
-
 
 <div id="goto-user-dialog" class="modal-container">
   <div class="modal modal-small draggable">
