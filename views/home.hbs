@@ -551,7 +551,7 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
     </div>
   </div>
     <div class="stream-container conversations-enabled"
-    data-max-id="{{#if timeline.feed}}{{ timeline.feed.cursor }}{{else}}-1{{/if}}" data-since-id="{{#if @first}}{{ timeline.feed.post.indexedAt }}{{else}} {{/if}}"
+    data-max-id="{{#if timeline.cursor}}{{ timeline.cursor }}{{else}}-1{{/if}}" data-since-id="{{#if timeline.cursor}}{{ timeline.feed.post.0.indexedAt }}{{else}} {{/if}}"
     
     
     >
@@ -655,7 +655,7 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
       
 
 
-           &amp;middot; <a class=&quot;permalink-link js-permalink js-nav&quot; href=&quot;/twitter/status/329655559752138753&quot; >Details</a>
+           &amp;middot; <a class=&quot;permalink-link js-permalink js-nav&quot; href=&quot;/profile/{{ this.post.author.handle }}/status/{{ getRkey this.post.uri }}&quot; >Details</a>
 
       
 
@@ -834,6 +834,7 @@ c.target.hostname.match(a)?!1:!0}var a=/^([^\.]+\.)*twitter.com$/,b=/^key/,c=["c
 </li>
 {{/if}}
 {{/each}}
+</ol>
 {{/if}}
         <div class="stream-footer ">
   <div class='timeline-end has-items has-more-items'>

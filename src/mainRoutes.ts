@@ -25,7 +25,7 @@ mainRoutes.get('/profile/:handle', async (req: Request, res: Response) => {
 		const getFeed = await agent.app.bsky.feed.getAuthorFeed({actor: handle, limit: 20});
 		const feedData = getFeed.data;
 
-		res.render('profile', { appname: appname, year: d.getFullYear(), data: profileData, feed: feedData.feed });
+		res.render('profile', { appname: appname, year: d.getFullYear(), data: profileData, feed: feedData.feed, feed_aux: feedData });
 	} catch(error) {
 		res.status(500).send("Cannot fetch data");
 	}
@@ -43,6 +43,25 @@ mainRoutes.get('/profile/:handle/status/:rkey', async (req: Request, res: Respon
 		const likesData = getLikes.data;
 		
 		res.render('post', { appname: appname, year: d.getFullYear(), data: threadData.thread, likes: likesData.likes });
+	} catch(error) {
+		res.status(500).send("Cannot fetch data");
+	}
+});
+
+mainRoutes.get('/profile/:handle/lists/:list', async (req: Request, res: Response) => {
+	const { handle, list } = req.params;
+
+	try {
+		const getDid = await agent.com.atproto.identity.resolveHandle({handle: handle});
+		const didData = getDid.data;		
+		const getGenerator = await agent.app.bsky.feed.getFeedGenerator({feed: `at://${didData.did}/app.bsky.feed.generator/${list}`});
+		const generatorData = getGenerator.data;
+		const getFeeds = await agent.app.bsky.feed.getActorFeeds({actor: handle});
+		const feedsData = getFeeds.data;
+		const getFeed = await agent.app.bsky.feed.getFeed({feed: `at://${didData.did}/app.bsky.feed.generator/${list}`, limit: 20});
+		const feedData = getFeed.data;
+		
+		res.render('list', { appname: appname, year: d.getFullYear(), data: generatorData.view, feed: feedData.feed, feed_aux: feedData, feeds: feedsData, listname: list });
 	} catch(error) {
 		res.status(500).send("Cannot fetch data");
 	}
@@ -81,7 +100,7 @@ mainRoutes.get('/home', async (req: Request, res: Response) => {
 	const password = req.cookies['password'];
 	
 	if (!handle || !password) {
-		res.redirect('login?redirect_after_login=/home');
+		return res.redirect('login?redirect_after_login=/home');
 	}
 	
 	try {
@@ -95,8 +114,6 @@ mainRoutes.get('/home', async (req: Request, res: Response) => {
 		const curUserProf = await agent.app.bsky.actor.getProfile({ actor: currentUser });
 		const userProfData = curUserProf.data;
 		
-		//console.log(timelineData, userProfData);
-
 		res.render('home', { appname: appname, year: d.getFullYear(), timeline: timelineData, profileData: userProfData });
 	} catch(error) {
 		res.status(500).send("Cannot fetch data");

@@ -314,35 +314,96 @@ auxRoutes.get('/i/search/typeahead.json', async (req: Request, res: Response) =>
 		res.status(500).send("Cannot fetch data");
 	}
 });
-/*
+
 auxRoutes.get('/i/profiles/show/:handle/timeline/with_replies', async (req: Request, res: Response) => {	
 	try {
-	const { handle } = req.params;
-	const { max_id, user_id } = req.query as unknown as RequestQuery;
-			
-	res.set({'Content-Type': 'application/json'});
-	const getFeed = await agent.app.bsky.feed.getAuthorFeed({actor: handle, limit: 20, cursor: max_id});
-	const feedData = getFeed.data;
-	
-	res.render('items_html', { feed: feedData.feed }, function(e, renderedHtml) {
-		if (e) {
-			console.error('Error:', e);
-		} else {
-			const timeline = {
-				has_more_items: true,
-				max_id: max_id,
-				items_html: renderedHtml,
+		const { handle } = req.params;
+		const { max_id, user_id } = req.query as unknown as RequestQuery;
+				
+		res.set({'Content-Type': 'application/json'});
+		const getFeed = await agent.app.bsky.feed.getAuthorFeed({actor: handle, limit: 20, cursor: max_id});
+		const feedData = getFeed.data;
+		
+		res.render('items_html', { feed: feedData.feed, feed_aux: feedData }, function(e, renderedHtml) {
+			if (e) {
+				console.error('Error:', e);
+			} else {
+				const timeline = {
+					has_more_items: true,
+					max_id: feedData.cursor,
+					items_html: renderedHtml,
+				};
+				
+				res.json(timeline);
 			};
-			
-			res.json(timeline);
-		};
-	});
-	
+		});
 	} catch(error) {
 		res.status(500).send("Cannot fetch data");
 	}
-});*/
+});
 
+auxRoutes.get('/i/timeline', async (req: Request, res: Response) => {	
+	const handle = req.cookies['handle'];
+	const password = req.cookies['password'];
+	try {
+		const { max_id } = req.query as unknown as RequestQuery;
+		
+		await authAgent.login({
+			identifier: handle,
+			password: password
+		})
+		
+		res.set({'Content-Type': 'application/json'});
+		const getFeed = await authAgent.app.bsky.feed.getTimeline({limit: 20, cursor: max_id});
+		const feedData = getFeed.data;
+		
+		res.render('items_html', { feed: feedData.feed, feed_aux: feedData }, function(e, renderedHtml) {
+			if (e) {
+				console.error('Error:', e);
+			} else {
+				const timeline = {
+					has_more_items: true,
+					max_id: feedData.cursor,
+					items_html: renderedHtml,
+				};
+				
+				res.json(timeline);
+			};
+		});
+	} catch(error) {
+		res.status(500).send("Cannot fetch data");
+	}
+});
+
+auxRoutes.get('/profile/:handle/lists/:list/timeline', async (req: Request, res: Response) => {	
+	try {
+		const { handle, list } = req.params;
+		const { max_id } = req.query as unknown as RequestQuery;
+				
+		res.set({'Content-Type': 'application/json'});
+		const getDid = await agent.com.atproto.identity.resolveHandle({handle: handle});
+		const didData = getDid.data;		
+		const getFeed = await agent.app.bsky.feed.getFeed({feed: `at://${didData.did}/app.bsky.feed.generator/${list}`, limit: 20, cursor: max_id});
+		const feedData = getFeed.data;
+		
+		res.render('items_html', { feed: feedData.feed }, function(e, renderedHtml) {
+			if (e) {
+				console.error('Error:', e);
+			} else {
+				const timeline = {
+					has_more_items: true,
+					max_id: feedData.cursor,
+					items_html: renderedHtml,
+				};
+				
+				res.json(timeline);
+			};
+		});
+		
+	} catch(error) {
+		res.status(500).send("Cannot fetch data");
+	}
+});
 
 auxRoutes.get('/i/users/recommendations', async (req: Request, res: Response) => {	
 	try {

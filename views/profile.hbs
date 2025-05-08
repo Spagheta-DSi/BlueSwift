@@ -711,7 +711,7 @@ body {
 {{/if}}
     </div>
   </div>
-      <div class="stream-container" data-max-id="{{#if feed}}{{ this.cursor }}{{else}}-1{{/if}}" data-since-id="{{#if feed.post.[0]}}{{ feed.post.[0].indexedAt }}{{else}}{{/if}}">
+      <div class="stream-container" data-max-id="{{#if feed_aux.cursor}}{{ feed_aux.cursor }}{{else}}-1{{/if}}" data-since-id="{{#if feed_aux.cursor}}{{ feed.post.[0].indexedAt }}{{else}}{{/if}}">
     <div class="stream profile-stream">
       <ol class="stream-items" id="stream-items-id">
 {{#each feed}}

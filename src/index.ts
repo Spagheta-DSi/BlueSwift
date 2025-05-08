@@ -44,6 +44,11 @@ app.engine('hbs', engine({
 			const match = uri.match(regex);
 			return match ? match[1] : null;
 		},
+		getFeedHandle: function(uri: string): string | null {
+			const regex = /at:\/\/did:plc:[^/]+\/app\.bsky\.feed\.generator\/([^/?#]+)/;
+			const match = uri.match(regex);
+			return match ? match[1] : null;
+		},
 		truncateTitle: function(str: string): string {
 			if (str.length <= 30) {
 				return str;
